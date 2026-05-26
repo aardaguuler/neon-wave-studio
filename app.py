@@ -94,28 +94,4 @@ try:
 except FileNotFoundError:
     st.error("Hata: `studio.html` dosyası bulunamadı! Lütfen aynı dizinde olduğundan emin olun.")
 
-# Alt Bilgi Alayı
-st.markdown("---")
-col1, col2 = st.columns(2)
-with col1:
-    st.markdown("### 🚀 Bu Projeyi Bulutta Canlıya Alın!")
-    st.markdown("""
-    Streamlit sayesinde bu uygulamayı tüm dünya ile paylaşmak çok kolaydır:
-    1. Bu klasörü bir **GitHub** deposuna (repository) yükleyin.
-    2. [Streamlit Community Cloud](https://share.streamlit.io/) sitesine ücretsiz üye olun.
-    3. Deponuzu bağlayın ve `app.py` dosyasını seçerek **Deploy** butonuna basın.
-    4. **Tebrikler!** Artık tüm dünyanın girebileceği canlı bir müzik siteniz var!
-    """)
 
-with col2:
-    st.markdown("### 💻 Bilgisayarınızda Nasıl Çalıştırırsınız?")
-    st.markdown("""
-    Kendi bilgisayarınızda çalıştırmak için:
-    1. Bir terminal (Komut İstemi) açıp proje klasörüne gidin.
-    2. Python yüklü olduğundan emin olup şu komutu çalıştırın:
-       ```bash
-       pip install streamlit
-       streamlit run app.py
-       ```
-    3. Tarayıcınızda otomatik olarak açılan ekranın keyfini çıkarın!
-    """)
