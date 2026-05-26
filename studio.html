@@ -55,6 +55,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      position: relative;
     }
 
     /* Üst Kontrol Paneli */
@@ -66,6 +67,7 @@
       gap: 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       padding-bottom: 14px;
+      transition: all 0.3s ease;
     }
 
     .brand-section h1 {
@@ -101,8 +103,8 @@
       background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
       color: white;
       border: none;
-      padding: 10px 24px;
-      font-size: 14px;
+      padding: 10px 20px;
+      font-size: 13px;
       font-weight: 700;
       border-radius: 10px;
       cursor: pointer;
@@ -121,6 +123,28 @@
     .btn-main.playing {
       background: linear-gradient(135deg, #00b4db, #00f2fe);
       box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+    }
+
+    /* Tur Rehberi Başlatıcı Buton */
+    .btn-help {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--neon-blue);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-help:hover {
+      background: rgba(0, 242, 254, 0.1);
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
     }
 
     .tempo-slider-container {
@@ -177,6 +201,7 @@
       border: 1px solid rgba(255, 255, 255, 0.03);
       position: relative;
       overflow: hidden;
+      transition: all 0.3s ease;
     }
 
     #visualizer {
@@ -216,6 +241,7 @@
       padding: 12px;
       border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: all 0.3s ease;
     }
 
     .sequencer-row {
@@ -317,7 +343,6 @@
       position: relative;
     }
 
-    /* 4'lük Beat grupları için hafif görsel ayrım */
     .step-buttons .step-btn:nth-child(4n+1) {
       background: rgba(255, 255, 255, 0.06);
       border-color: rgba(255, 255, 255, 0.06);
@@ -357,6 +382,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
+      transition: all 0.3s ease;
     }
 
     .panel-card {
@@ -483,6 +509,115 @@
       cursor: pointer;
     }
 
+    /* --- ETKİLEŞİMLİ TUTORIAL (REHBER) CSS --- */
+    .tutorial-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .tutorial-box {
+      background: rgba(13, 17, 39, 0.95);
+      border: 2px solid var(--neon-blue);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-align: center;
+      animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .tutorial-box h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--neon-blue);
+    }
+
+    .tutorial-box p {
+      font-size: 13px;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .tutorial-box .tutorial-desc {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .tutorial-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn-tut-skip {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-tut-skip:hover {
+      color: var(--text-main);
+      border-color: var(--text-main);
+    }
+
+    .btn-tut-next {
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+      flex-grow: 1;
+      transition: all 0.2s;
+    }
+
+    .btn-tut-next:hover {
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+    }
+
+    /* Tutorial Odak Sınıfı (Önemli Parçaları Parlatma) */
+    .tutorial-focus {
+      position: relative;
+      z-index: 10000 !important;
+      box-shadow: 0 0 40px rgba(0, 242, 254, 0.6) !important;
+      border-color: var(--neon-blue) !important;
+      background: rgba(13, 17, 39, 0.95) !important;
+    }
+
     /* Mobil Uyum */
     @media (max-width: 800px) {
       .synth-panel {
@@ -499,16 +634,19 @@
 </head>
 <body>
 
-  <div class="studio-container">
+  <div class="studio-container" id="studio-main">
     
     <!-- Üst Kontrol Paneli -->
-    <div class="header-panel">
+    <div class="header-panel" id="tut-header">
       <div class="brand-section">
         <h1><span>⚡</span> NEON WAVE STUDIO PRO</h1>
         <p>16-Step Davul Sequencer & Delay Efektli Melodi Sentezleyici</p>
       </div>
       
       <div class="global-controls">
+        <button class="btn-help" onclick="startTutorial(true)">
+          ❓ Rehber Turunu Başlat
+        </button>
         <div class="tempo-slider-container">
           <label for="tempo">BPM</label>
           <input type="range" id="tempo" class="tempo-slider" min="60" max="180" value="120">
@@ -522,12 +660,12 @@
     </div>
 
     <!-- Canlı Ses Dalga Analizcisi -->
-    <div class="visualizer-card">
+    <div class="visualizer-card" id="tut-visualizer">
       <canvas id="visualizer"></canvas>
     </div>
 
     <!-- Ritim Adımlayıcı (16 Adım Sequencer) -->
-    <div>
+    <div id="tut-sequencer">
       <div class="section-title">
         <span></span> 16-Step Ritim Dizici (Drum Sequencer)
       </div>
@@ -541,7 +679,6 @@
             <button class="mute-btn" onclick="toggleMute('kick', this)">M</button>
           </div>
           <div class="step-buttons">
-            <!-- 16 Adım Butonları -->
             <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
             <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
             <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
@@ -629,7 +766,7 @@
           </div>
         </div>
 
-        <!-- FX (Cyber Glitch) -->
+        <!-- FX -->
         <div class="sequencer-row" data-inst="fx">
           <div class="channel-mixer">
             <div class="instrument-label" onclick="triggerPlay('fx')">👽 Synth FX (Glitch)</div>
@@ -652,10 +789,10 @@
     </div>
 
     <!-- Piyano & Efekt Paneli (Alt Kısım Çift Sütun) -->
-    <div class="synth-panel">
+    <div class="synth-panel" id="tut-synth">
       
       <!-- Sol Sütun: Piyano Klavyesi -->
-      <div class="panel-card">
+      <div class="panel-card" id="tut-piano">
         <div class="section-title" style="margin-bottom:4px;">
           <span style="background:var(--neon-blue); box-shadow: 0 0 6px var(--neon-blue)"></span> Mini Melodi Klavyesi
         </div>
@@ -672,7 +809,7 @@
       </div>
 
       <!-- Sağ Sütun: Synthesizer Kontrolleri & Delay FX -->
-      <div class="panel-card">
+      <div class="panel-card" id="tut-effects">
         <div class="section-title" style="margin-bottom:4px;">
           <span style="background:var(--neon-pink); box-shadow: 0 0 6px var(--neon-pink)"></span> Synth & Delay FX Ayarları
         </div>
@@ -709,6 +846,19 @@
 
     </div>
 
+  </div>
+
+  <!-- --- TUTORIAL REHBER OVERLAY --- -->
+  <div class="tutorial-overlay" id="tutorial-overlay">
+    <div class="tutorial-box">
+      <h2 id="tut-title">Hoş Geldiniz! ⚡</h2>
+      <p id="tut-text">Kendi ritmini ve melodini yapmak ister misin? Senin için hazırladığım 1 dakikalık süper basit rehbere göz at!</p>
+      <div class="tutorial-desc" id="tut-desc">Hiçbir tecrübeye gerek yok. Sadece tıklayarak harika müzikler yapacaksın!</div>
+      <div class="tutorial-buttons">
+        <button class="btn-tut-skip" id="tut-btn-skip">Atla / Kapat</button>
+        <button class="btn-tut-next" id="tut-btn-next">Tur Yapalım! 🚀</button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -979,7 +1129,6 @@
       const channelGain = getChannelGain('fx', time);
       
       osc.type = 'sawtooth';
-      // Hızlı frekans kayması
       osc.frequency.setValueAtTime(800, time);
       osc.frequency.exponentialRampToValueAtTime(80, time + 0.12);
       
@@ -1019,20 +1168,18 @@
       // Lowpass Filtresi
       filterNode.type = 'lowpass';
       filterNode.frequency.setValueAtTime(filterFreq, audioCtx.currentTime);
-      filterNode.Q.setValueAtTime(2.0, audioCtx.currentTime); // Parlaklığı artırmak için Q ekliyoruz
+      filterNode.Q.setValueAtTime(2.0, audioCtx.currentTime);
       filterNode.frequency.exponentialRampToValueAtTime(filterFreq * 0.3, audioCtx.currentTime + decayTime);
 
       // Ses Seviyesi Envelope
       voiceGain.gain.setValueAtTime(0.4, audioCtx.currentTime);
       voiceGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + decayTime);
 
-      // Bağlantılar: Ses -> Filtre -> Gain
       osc.connect(filterNode);
       filterNode.connect(voiceGain);
       
-      // Yarı kuru (Direct Main), Yarı ıslak (Delay Node) bağlantı
       voiceGain.connect(mainGainNode); // Kuru ses
-      voiceGain.connect(delayNode);    // Islak yankılı ses (Delay kanalına)
+      voiceGain.connect(delayNode);    // Islak yankılı ses
 
       osc.start();
       osc.stop(audioCtx.currentTime + decayTime + 0.1);
@@ -1063,7 +1210,7 @@
 
     function nextStep() {
       const secondsPerBeat = 60.0 / tempo;
-      const stepDuration = secondsPerBeat / 4; // 16'lık adımlara bölme (Beat başına 4 adım)
+      const stepDuration = secondsPerBeat / 4; // 16'lık adımlara bölme
       nextNoteTime += stepDuration;
       
       currentStep = (currentStep + 1) % 16;
@@ -1085,7 +1232,6 @@
         }
       });
 
-      // Görsel olarak mevcut adımı takip etme
       setTimeout(() => {
         const allBtns = document.querySelectorAll('.step-btn');
         allBtns.forEach(btn => btn.classList.remove('current'));
@@ -1277,6 +1423,116 @@
       ctx.stroke();
     }
     drawStaticWave();
+
+
+    // --- ADIM ADIM İNTERAKTİF TUTORIAL (REHBER) MANTIĞI ---
+    let currentTutStep = -1;
+    
+    // Basit, eğlenceli ve en anlaşılır dilde rehber adımları
+    const stepsData = [
+      {
+        title: "Hoş Geldin Şampiyon! ⚡",
+        text: "Kendi müziğini yapmak hiç bu kadar kolay olmamıştı! Senin için hazırladığım **1 dakikalık süper basit rehbere** göz atmaya ne dersin?",
+        desc: "İstediğin an 'Atla' diyerek rehberi kapatabilirsin.",
+        focus: null,
+        btnText: "Hadi Başlayalım! 🚀"
+      },
+      {
+        title: "1. Müziğin Kalbi: Döngü ve Hız ⏱️",
+        text: "Buradan <b>'Döngüyü Başlat'</b> butonuna basarak ritmin akmasını sağla! <br>Ritim hızını değiştirmek için <b>BPM</b> sürgüsünü kaydırıp hızlandırabilir veya yavaşlatabilirsin.",
+        desc: "Butona tıklayarak davul seslerinin ritmini hisset!",
+        focus: "#tut-header",
+        btnText: "Sonraki Adım ➡️"
+      },
+      {
+        title: "2. Kendi Ritimlerini Tasarla! 🥁",
+        text: "Buradaki kare tablosu senin <b>ritim yapıcı (sequencer)</b> alanın! <br><b>Karelerin üzerine tıklayarak onları mavi yap.</b> Mavi yaptığın her karede o satırdaki davul sesi (Bas, Trampet vb.) otomatik olarak çalacaktır!",
+        desc: "Ritim çalarken kutuları mavi yapıp farkı anında duyabilirsin!",
+        focus: "#tut-sequencer",
+        btnText: "Çok Basit! Devam Et ➡️"
+      },
+      {
+        title: "3. Profesyonel Mikser Paneli 🎛️",
+        text: "Hangi enstrümanın ne kadar yüksek ses çıkaracağını buradaki sürgülerden ayarlayabilirsin. <br>Eğer bir davul sesini tamamen kapatmak istersen yanındaki <b>'M' (Mute)</b> butonuna basıp susturabilirsin!",
+        desc: "Sadece Kick duymak istiyorsan diğerlerini M butonuyla kapat!",
+        focus: ".channel-mixer",
+        btnText: "Bunu da Anladım! ➡️"
+      },
+      {
+        title: "4. Ve Efsanevi Piyano! 🎹",
+        text: "Mouse ile tıklayarak veya bilgisayar klavyendeki <b>A, S, D, F, G, H, J, K</b> tuşlarına basarak kendi melodilerini canlı çal! <br><b>Delay (Yankı)</b> sürgüsünü açarak sesleri derin bir uzay yankısıyla süsle!",
+        desc: "Dalga Şeklini değiştirerek retro bilgisayar veya yumuşak tonlar elde et!",
+        focus: "#tut-synth",
+        btnText: "Turu Bitir ve Müzik Yap! 🎉"
+      }
+    ];
+
+    const overlay = document.getElementById('tutorial-overlay');
+    const tutTitle = document.getElementById('tut-title');
+    const tutText = document.getElementById('tut-text');
+    const tutDesc = document.getElementById('tut-desc');
+    const btnNext = document.getElementById('tut-btn-next');
+    const btnSkip = document.getElementById('tut-btn-skip');
+
+    function startTutorial(force = false) {
+      // Eğer daha önce tur tamamlandıysa ve zorlanmadıysa başlatma
+      if (!force && localStorage.getItem('tutorialCompleted') === 'true') {
+        return;
+      }
+      
+      currentTutStep = 0;
+      showStep(0);
+      overlay.style.display = 'flex';
+    }
+
+    function showStep(stepIndex) {
+      // Önceki odakları temizle
+      document.querySelectorAll('.tutorial-focus').forEach(el => el.classList.remove('tutorial-focus'));
+      
+      const step = stepsData[stepIndex];
+      tutTitle.innerHTML = step.title;
+      tutText.innerHTML = step.text;
+      tutDesc.innerHTML = step.desc;
+      btnNext.innerHTML = step.btnText;
+
+      // Belirli bir alanı aydınlatma / odaklanma
+      if (step.focus) {
+        const target = document.querySelector(step.focus);
+        if (target) {
+          target.classList.add('tutorial-focus');
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+
+    btnNext.addEventListener('click', () => {
+      currentTutStep++;
+      if (currentTutStep < stepsData.length) {
+        showStep(currentTutStep);
+      } else {
+        closeTutorial();
+      }
+    });
+
+    btnSkip.addEventListener('click', closeTutorial);
+    overlay.addEventListener('click', (e) => {
+      // Kutu dışına tıklandığında da kapansın
+      if (e.target === overlay) closeTutorial();
+    });
+
+    function closeTutorial() {
+      // Odakları temizle
+      document.querySelectorAll('.tutorial-focus').forEach(el => el.classList.remove('tutorial-focus'));
+      overlay.style.display = 'none';
+      localStorage.setItem('tutorialCompleted', 'true');
+    }
+
+    // İlk açılışta turu otomatik başlat (localStorage kontrolü ile)
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        startTutorial(false);
+      }, 800);
+    });
   </script>
 </body>
 </html>
