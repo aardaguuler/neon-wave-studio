@@ -26,6 +26,7 @@
       --step-active-bg: rgba(59, 130, 246, 0.2);
       --step-active-border: rgba(59, 130, 246, 0.5);
       --playhead: #f59e0b;
+      --accent-808: #f97316;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -235,7 +236,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      width: 170px;
+      width: 200px;
       flex-shrink: 0;
     }
 
@@ -244,22 +245,54 @@
       font-weight: 600;
       color: var(--text-dim);
       cursor: pointer;
-      width: 72px;
+      width: 58px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
       transition: color 0.15s;
+      flex-shrink: 0;
     }
 
     .ch-name:hover { color: var(--text); }
 
+    .ch-select {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-dim);
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      flex: 1;
+      min-width: 0;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .ch-select:hover {
+      border-color: rgba(255,255,255,0.15);
+      color: var(--text);
+    }
+
+    .ch-select option {
+      background: #0c0f1a;
+      color: var(--text);
+    }
+
+    .ch-select.is-808 {
+      border-color: rgba(249, 115, 22, 0.3);
+      color: var(--accent-808);
+    }
+
     .ch-vol {
       -webkit-appearance: none;
-      width: 44px;
+      width: 34px;
       height: 2px;
       background: rgba(255,255,255,0.08);
       border-radius: 1px;
       outline: none;
+      flex-shrink: 0;
     }
 
     .ch-vol::-webkit-slider-thumb {
@@ -285,6 +318,7 @@
       align-items: center;
       justify-content: center;
       transition: all 0.15s;
+      flex-shrink: 0;
     }
 
     .ch-mute:hover { color: var(--text-dim); border-color: var(--border-focus); }
@@ -327,6 +361,16 @@
     .step.current {
       border-color: var(--playhead);
       box-shadow: inset 0 0 0 1px var(--playhead);
+    }
+
+    /* 808 row special styling */
+    .seq-row[data-inst="bass808"] .step.active {
+      background: rgba(249, 115, 22, 0.2);
+      border-color: rgba(249, 115, 22, 0.5);
+    }
+
+    .seq-row[data-inst="bass808"] .ch-name {
+      color: var(--accent-808);
     }
 
     /* ── Synth Panel ── */
@@ -589,7 +633,7 @@
 
     @media (max-width: 800px) {
       .synth-row { grid-template-columns: 1fr; }
-      .ch-info { width: 110px; }
+      .ch-info { width: 130px; }
       .ch-vol { display: none; }
       .key::before { display: none; }
     }
@@ -605,7 +649,7 @@
       <div class="logo">N</div>
       <div>
         <div class="header-title">Neon Wave Studio</div>
-        <div class="header-sub">16-Step Sequencer &middot; Synth &middot; Delay FX</div>
+        <div class="header-sub">16-Step Sequencer &middot; Synth &middot; 808 &middot; Delay FX</div>
       </div>
     </div>
     <div class="header-controls">
@@ -632,9 +676,17 @@
     <div class="seq-label">Drum Sequencer</div>
     <div class="seq-grid">
 
+      <!-- KICK -->
       <div class="seq-row" data-inst="kick">
         <div class="ch-info" id="tut-mixer-kick">
           <div class="ch-name" onclick="triggerPlay('kick')">Kick</div>
+          <select class="ch-select" id="sel-kick">
+            <option value="kick_std">Standard</option>
+            <option value="kick_909">909</option>
+            <option value="kick_deep">Deep</option>
+            <option value="kick_punchy">Punchy</option>
+            <option value="kick_sub">Sub</option>
+          </select>
           <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.8" oninput="changeChannelVol('kick',this.value)">
           <button class="ch-mute" onclick="toggleMute('kick',this)">M</button>
         </div>
@@ -650,9 +702,17 @@
         </div>
       </div>
 
+      <!-- SNARE -->
       <div class="seq-row" data-inst="snare">
         <div class="ch-info">
           <div class="ch-name" onclick="triggerPlay('snare')">Snare</div>
+          <select class="ch-select" id="sel-snare">
+            <option value="snare_std">Standard</option>
+            <option value="snare_fat">Fat</option>
+            <option value="snare_rimshot">Rimshot</option>
+            <option value="snare_clacky">Clacky</option>
+            <option value="snare_brush">Brush</option>
+          </select>
           <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.7" oninput="changeChannelVol('snare',this.value)">
           <button class="ch-mute" onclick="toggleMute('snare',this)">M</button>
         </div>
@@ -668,9 +728,17 @@
         </div>
       </div>
 
+      <!-- HI-HAT -->
       <div class="seq-row" data-inst="hihat">
         <div class="ch-info">
           <div class="ch-name" onclick="triggerPlay('hihat')">Hi-Hat</div>
+          <select class="ch-select" id="sel-hihat">
+            <option value="hihat_closed">Closed</option>
+            <option value="hihat_open">Open</option>
+            <option value="hihat_tight">Tight</option>
+            <option value="hihat_pedal">Pedal</option>
+            <option value="hihat_ride">Ride</option>
+          </select>
           <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.5" oninput="changeChannelVol('hihat',this.value)">
           <button class="ch-mute" onclick="toggleMute('hihat',this)">M</button>
         </div>
@@ -686,9 +754,16 @@
         </div>
       </div>
 
+      <!-- CLAP -->
       <div class="seq-row" data-inst="clap">
         <div class="ch-info">
           <div class="ch-name" onclick="triggerPlay('clap')">Clap</div>
+          <select class="ch-select" id="sel-clap">
+            <option value="clap_std">Standard</option>
+            <option value="clap_snap">Snap</option>
+            <option value="clap_big">Big Room</option>
+            <option value="clap_trap">Trap</option>
+          </select>
           <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.6" oninput="changeChannelVol('clap',this.value)">
           <button class="ch-mute" onclick="toggleMute('clap',this)">M</button>
         </div>
@@ -704,9 +779,16 @@
         </div>
       </div>
 
+      <!-- TOM -->
       <div class="seq-row" data-inst="tom">
         <div class="ch-info">
           <div class="ch-name" onclick="triggerPlay('tom')">Tom</div>
+          <select class="ch-select" id="sel-tom">
+            <option value="tom_mid">Mid Tom</option>
+            <option value="tom_high">High Tom</option>
+            <option value="tom_floor">Floor Tom</option>
+            <option value="tom_tabla">Tabla</option>
+          </select>
           <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.7" oninput="changeChannelVol('tom',this.value)">
           <button class="ch-mute" onclick="toggleMute('tom',this)">M</button>
         </div>
@@ -722,9 +804,42 @@
         </div>
       </div>
 
+      <!-- 808 BASS -->
+      <div class="seq-row" data-inst="bass808">
+        <div class="ch-info">
+          <div class="ch-name" onclick="triggerPlay('bass808')">808</div>
+          <select class="ch-select is-808" id="sel-bass808">
+            <option value="808_classic">Classic</option>
+            <option value="808_long">Long Tail</option>
+            <option value="808_tight">Tight</option>
+            <option value="808_sub">Sub Only</option>
+            <option value="808_distorted">Distorted</option>
+          </select>
+          <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.85" oninput="changeChannelVol('bass808',this.value)">
+          <button class="ch-mute" onclick="toggleMute('bass808',this)">M</button>
+        </div>
+        <div class="steps">
+          <button class="step" data-step="0"></button><button class="step" data-step="1"></button>
+          <button class="step" data-step="2"></button><button class="step" data-step="3"></button>
+          <button class="step" data-step="4"></button><button class="step" data-step="5"></button>
+          <button class="step" data-step="6"></button><button class="step" data-step="7"></button>
+          <button class="step" data-step="8"></button><button class="step" data-step="9"></button>
+          <button class="step" data-step="10"></button><button class="step" data-step="11"></button>
+          <button class="step" data-step="12"></button><button class="step" data-step="13"></button>
+          <button class="step" data-step="14"></button><button class="step" data-step="15"></button>
+        </div>
+      </div>
+
+      <!-- SYNTH FX -->
       <div class="seq-row" data-inst="fx">
         <div class="ch-info">
           <div class="ch-name" onclick="triggerPlay('fx')">Synth FX</div>
+          <select class="ch-select" id="sel-fx">
+            <option value="fx_zap">Zap</option>
+            <option value="fx_stab">Stab</option>
+            <option value="fx_bell">Bell</option>
+            <option value="fx_laser">Laser</option>
+          </select>
           <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.5" oninput="changeChannelVol('fx',this.value)">
           <button class="ch-mute" onclick="toggleMute('fx',this)">M</button>
         </div>
@@ -807,8 +922,8 @@
 // ── Audio Engine ──
 let audioCtx=null, mainGainNode=null, analyserNode=null, delayNode=null, delayFeedbackNode=null;
 
-const channelVolumes = { kick:0.8, snare:0.7, hihat:0.5, clap:0.6, tom:0.7, fx:0.5 };
-const channelMutes = { kick:false, snare:false, hihat:false, clap:false, tom:false, fx:false };
+const channelVolumes = { kick:0.8, snare:0.7, hihat:0.5, clap:0.6, tom:0.7, bass808:0.85, fx:0.5 };
+const channelMutes   = { kick:false, snare:false, hihat:false, clap:false, tom:false, bass808:false, fx:false };
 
 function initAudio(){
   if(audioCtx) return;
@@ -844,19 +959,334 @@ function updateDelayFeedback(v){
 function getChGain(inst,t){ const g=audioCtx.createGain(); g.gain.setValueAtTime(channelMutes[inst]?0:channelVolumes[inst],t); return g; }
 
 let noiseCache=null;
-function noiseBuf(){ if(noiseCache) return noiseCache; const s=audioCtx.sampleRate*0.5, b=audioCtx.createBuffer(1,s,audioCtx.sampleRate), d=b.getChannelData(0); for(let i=0;i<s;i++) d[i]=Math.random()*2-1; noiseCache=b; return b; }
+function noiseBuf(){
+  if(noiseCache) return noiseCache;
+  const s=audioCtx.sampleRate*0.5, b=audioCtx.createBuffer(1,s,audioCtx.sampleRate), d=b.getChannelData(0);
+  for(let i=0;i<s;i++) d[i]=Math.random()*2-1;
+  noiseCache=b; return b;
+}
 
-function playKick(t){ if(!audioCtx) initAudio(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(),c=getChGain('kick',t); o.connect(g); g.connect(c); c.connect(mainGainNode); o.type='sine'; o.frequency.setValueAtTime(140,t); o.frequency.exponentialRampToValueAtTime(0.01,t+0.28); g.gain.setValueAtTime(1,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28); o.start(t); o.stop(t+0.3); }
+// helper: connect chain to channel gain -> main
+function chain(nodes, inst, t){
+  const c=getChGain(inst,t);
+  for(let i=0;i<nodes.length-1;i++) nodes[i].connect(nodes[i+1]);
+  nodes[nodes.length-1].connect(c); c.connect(mainGainNode);
+  return c;
+}
 
-function playSnare(t){ if(!audioCtx) initAudio(); const n=audioCtx.createBufferSource(); n.buffer=noiseBuf(); const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(1200,t); const g=audioCtx.createGain(); g.gain.setValueAtTime(0.6,t); g.gain.exponentialRampToValueAtTime(0.01,t+0.18); const c=getChGain('snare',t); n.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); const o=audioCtx.createOscillator(),og=audioCtx.createGain(); o.type='triangle'; o.frequency.setValueAtTime(170,t); o.frequency.exponentialRampToValueAtTime(0.01,t+0.08); og.gain.setValueAtTime(0.7,t); og.gain.exponentialRampToValueAtTime(0.01,t+0.08); o.connect(og); og.connect(c); n.start(t); n.stop(t+0.2); o.start(t); o.stop(t+0.1); }
+// ── KICK VARIANTS ──
+function playKick(t){
+  const v = document.getElementById('sel-kick').value;
+  if(v==='kick_909')    playKick909(t);
+  else if(v==='kick_deep')  playKickDeep(t);
+  else if(v==='kick_punchy') playKickPunchy(t);
+  else if(v==='kick_sub')   playKickSub(t);
+  else                      playKickStd(t);
+}
+function playKickStd(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('kick',t);
+  o.type='sine'; o.frequency.setValueAtTime(140,t); o.frequency.exponentialRampToValueAtTime(0.01,t+0.28);
+  g.gain.setValueAtTime(1,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
+  o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.3);
+}
+function playKick909(t){
+  // TR-909 style: click transient + body
+  const click=audioCtx.createOscillator(), cg=audioCtx.createGain();
+  click.type='sine'; click.frequency.setValueAtTime(600,t); click.frequency.exponentialRampToValueAtTime(50,t+0.02);
+  cg.gain.setValueAtTime(0.8,t); cg.gain.exponentialRampToValueAtTime(0.001,t+0.02);
+  const body=audioCtx.createOscillator(), bg=audioCtx.createGain();
+  body.type='sine'; body.frequency.setValueAtTime(60,t); body.frequency.exponentialRampToValueAtTime(0.01,t+0.35);
+  bg.gain.setValueAtTime(0.9,t); bg.gain.exponentialRampToValueAtTime(0.001,t+0.35);
+  const c=getChGain('kick',t);
+  click.connect(cg); cg.connect(c); body.connect(bg); bg.connect(c); c.connect(mainGainNode);
+  click.start(t); click.stop(t+0.03); body.start(t); body.stop(t+0.4);
+}
+function playKickDeep(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), dist=audioCtx.createWaveShaper(), c=getChGain('kick',t);
+  const curve=new Float32Array(256); for(let i=0;i<256;i++){ const x=i*2/256-1; curve[i]=x*(2+Math.abs(x))/(1+2*Math.abs(x)); } dist.curve=curve;
+  o.type='sine'; o.frequency.setValueAtTime(55,t); o.frequency.exponentialRampToValueAtTime(30,t+0.5);
+  g.gain.setValueAtTime(1.2,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.5);
+  o.connect(g); g.connect(dist); dist.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.55);
+}
+function playKickPunchy(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('kick',t);
+  o.type='sine'; o.frequency.setValueAtTime(200,t); o.frequency.exponentialRampToValueAtTime(40,t+0.12);
+  g.gain.setValueAtTime(1.2,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.12);
+  o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.15);
+}
+function playKickSub(t){
+  const o=audioCtx.createOscillator(), lp=audioCtx.createBiquadFilter(), g=audioCtx.createGain(), c=getChGain('kick',t);
+  o.type='sine'; o.frequency.setValueAtTime(80,t); o.frequency.exponentialRampToValueAtTime(20,t+0.6);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(120,t);
+  g.gain.setValueAtTime(1.4,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.6);
+  o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.65);
+}
 
-function playHihat(t){ if(!audioCtx) initAudio(); const s=audioCtx.createBufferSource(); s.buffer=noiseBuf(); const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.setValueAtTime(8000,t); const g=audioCtx.createGain(); g.gain.setValueAtTime(0.25,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.04); const c=getChGain('hihat',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); s.start(t); s.stop(t+0.05); }
+// ── SNARE VARIANTS ──
+function playSnare(t){
+  const v = document.getElementById('sel-snare').value;
+  if(v==='snare_fat')     playSnrFat(t);
+  else if(v==='snare_rimshot') playSnrRimshot(t);
+  else if(v==='snare_clacky') playSnrClacky(t);
+  else if(v==='snare_brush')  playSnrBrush(t);
+  else                        playSnrStd(t);
+}
+function playSnrStd(t){
+  const n=audioCtx.createBufferSource(); n.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(1200,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.6,t); g.gain.exponentialRampToValueAtTime(0.01,t+0.18);
+  const c=getChGain('snare',t);
+  const o=audioCtx.createOscillator(), og=audioCtx.createGain();
+  o.type='triangle'; o.frequency.setValueAtTime(170,t); o.frequency.exponentialRampToValueAtTime(0.01,t+0.08);
+  og.gain.setValueAtTime(0.7,t); og.gain.exponentialRampToValueAtTime(0.01,t+0.08);
+  o.connect(og); og.connect(c); n.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  n.start(t); n.stop(t+0.2); o.start(t); o.stop(t+0.1);
+}
+function playSnrFat(t){
+  const n=audioCtx.createBufferSource(); n.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(800,t); f.Q.setValueAtTime(0.5,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.9,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.3);
+  const o=audioCtx.createOscillator(), og=audioCtx.createGain();
+  o.type='triangle'; o.frequency.setValueAtTime(120,t); o.frequency.exponentialRampToValueAtTime(60,t+0.15);
+  og.gain.setValueAtTime(0.9,t); og.gain.exponentialRampToValueAtTime(0.001,t+0.15);
+  const c=getChGain('snare',t);
+  n.connect(f); f.connect(g); g.connect(c); o.connect(og); og.connect(c); c.connect(mainGainNode);
+  n.start(t); n.stop(t+0.35); o.start(t); o.stop(t+0.2);
+}
+function playSnrRimshot(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('snare',t);
+  o.type='square'; o.frequency.setValueAtTime(900,t); o.frequency.exponentialRampToValueAtTime(400,t+0.04);
+  g.gain.setValueAtTime(0.7,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.04);
+  o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.06);
+}
+function playSnrClacky(t){
+  const n=audioCtx.createBufferSource(); n.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.setValueAtTime(4000,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.8,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.06);
+  const c=getChGain('snare',t);
+  n.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  n.start(t); n.stop(t+0.08);
+}
+function playSnrBrush(t){
+  const n=audioCtx.createBufferSource(); n.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(2500,t); f.Q.setValueAtTime(0.3,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.25,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.35);
+  const c=getChGain('snare',t);
+  n.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  n.start(t); n.stop(t+0.4);
+}
 
-function playClap(t){ if(!audioCtx) initAudio(); const s=audioCtx.createBufferSource(); s.buffer=noiseBuf(); const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(1300,t); const g=audioCtx.createGain(); g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.01,t+0.02); g.gain.setValueAtTime(0.4,t+0.025); g.gain.exponentialRampToValueAtTime(0.01,t+0.045); g.gain.setValueAtTime(0.6,t+0.05); g.gain.exponentialRampToValueAtTime(0.001,t+0.16); const c=getChGain('clap',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); s.start(t); s.stop(t+0.2); }
+// ── HI-HAT VARIANTS ──
+function playHihat(t){
+  const v = document.getElementById('sel-hihat').value;
+  if(v==='hihat_open')   playHHOpen(t);
+  else if(v==='hihat_tight')  playHHTight(t);
+  else if(v==='hihat_pedal')  playHHPedal(t);
+  else if(v==='hihat_ride')   playHHRide(t);
+  else                        playHHClosed(t);
+}
+function playHHClosed(t){
+  const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.setValueAtTime(8000,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.25,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.04);
+  const c=getChGain('hihat',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  s.start(t); s.stop(t+0.05);
+}
+function playHHOpen(t){
+  const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.setValueAtTime(7000,t);
+  const p=audioCtx.createBiquadFilter(); p.type='peaking'; p.frequency.setValueAtTime(10000,t); p.gain.setValueAtTime(6,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.3,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+  const c=getChGain('hihat',t); s.connect(f); f.connect(p); p.connect(g); g.connect(c); c.connect(mainGainNode);
+  s.start(t); s.stop(t+0.45);
+}
+function playHHTight(t){
+  const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.setValueAtTime(10000,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.35,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.018);
+  const c=getChGain('hihat',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  s.start(t); s.stop(t+0.025);
+}
+function playHHPedal(t){
+  const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(6000,t); f.Q.setValueAtTime(1.5,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.2,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.06);
+  const c=getChGain('hihat',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  s.start(t); s.stop(t+0.08);
+}
+function playHHRide(t){
+  const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.setValueAtTime(5000,t);
+  const p=audioCtx.createBiquadFilter(); p.type='peaking'; p.frequency.setValueAtTime(8000,t); p.gain.setValueAtTime(8,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.2,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
+  const c=getChGain('hihat',t); s.connect(f); f.connect(p); p.connect(g); g.connect(c); c.connect(mainGainNode);
+  s.start(t); s.stop(t+0.8);
+}
 
-function playTom(t){ if(!audioCtx) initAudio(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(),c=getChGain('tom',t); o.type='sine'; o.frequency.setValueAtTime(110,t); o.frequency.exponentialRampToValueAtTime(45,t+0.22); g.gain.setValueAtTime(0.9,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.22); o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.25); }
+// ── CLAP VARIANTS ──
+function playClap(t){
+  const v = document.getElementById('sel-clap').value;
+  if(v==='clap_snap')  playClapSnap(t);
+  else if(v==='clap_big')  playClapBig(t);
+  else if(v==='clap_trap') playClapTrap(t);
+  else                     playClapStd(t);
+}
+function playClapStd(t){
+  const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(1300,t);
+  const g=audioCtx.createGain();
+  g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.01,t+0.02);
+  g.gain.setValueAtTime(0.4,t+0.025); g.gain.exponentialRampToValueAtTime(0.01,t+0.045);
+  g.gain.setValueAtTime(0.6,t+0.05); g.gain.exponentialRampToValueAtTime(0.001,t+0.16);
+  const c=getChGain('clap',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  s.start(t); s.stop(t+0.2);
+}
+function playClapSnap(t){
+  const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.setValueAtTime(3000,t);
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.8,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.03);
+  const c=getChGain('clap',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  s.start(t); s.stop(t+0.04);
+}
+function playClapBig(t){
+  const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+  const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(900,t); f.Q.setValueAtTime(0.4,t);
+  const rev=audioCtx.createConvolver ? null : null; // no convolver, fake with long tail
+  const g=audioCtx.createGain();
+  g.gain.setValueAtTime(0.4,t); g.gain.exponentialRampToValueAtTime(0.01,t+0.025);
+  g.gain.setValueAtTime(0.5,t+0.03); g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+  const c=getChGain('clap',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+  s.start(t); s.stop(t+0.45);
+}
+function playClapTrap(t){
+  // layered rapid triple hit
+  for(let i=0;i<3;i++){
+    const s=audioCtx.createBufferSource(); s.buffer=noiseBuf();
+    const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(1500,t+i*0.01); f.Q.setValueAtTime(1,t);
+    const g=audioCtx.createGain(); g.gain.setValueAtTime(0.55-i*0.08, t+i*0.01); g.gain.exponentialRampToValueAtTime(0.001,t+i*0.01+0.07);
+    const c=getChGain('clap',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode);
+    s.start(t+i*0.01); s.stop(t+i*0.01+0.09);
+  }
+}
 
-function playFX(t){ if(!audioCtx) initAudio(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(),c=getChGain('fx',t),f=audioCtx.createBiquadFilter(); o.type='sawtooth'; o.frequency.setValueAtTime(800,t); o.frequency.exponentialRampToValueAtTime(80,t+0.12); f.type='bandpass'; f.frequency.setValueAtTime(600,t); f.Q.setValueAtTime(8,t); g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.12); o.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.15); }
+// ── TOM VARIANTS ──
+function playTom(t){
+  const v = document.getElementById('sel-tom').value;
+  if(v==='tom_high')   playTomHigh(t);
+  else if(v==='tom_floor') playTomFloor(t);
+  else if(v==='tom_tabla') playTomTabla(t);
+  else                     playTomMid(t);
+}
+function playTomMid(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('tom',t);
+  o.type='sine'; o.frequency.setValueAtTime(110,t); o.frequency.exponentialRampToValueAtTime(45,t+0.22);
+  g.gain.setValueAtTime(0.9,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.22);
+  o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.25);
+}
+function playTomHigh(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('tom',t);
+  o.type='sine'; o.frequency.setValueAtTime(180,t); o.frequency.exponentialRampToValueAtTime(80,t+0.15);
+  g.gain.setValueAtTime(0.8,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
+  o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.18);
+}
+function playTomFloor(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('tom',t);
+  o.type='sine'; o.frequency.setValueAtTime(70,t); o.frequency.exponentialRampToValueAtTime(28,t+0.35);
+  g.gain.setValueAtTime(1.1,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.35);
+  o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.4);
+}
+function playTomTabla(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('tom',t);
+  o.type='triangle'; o.frequency.setValueAtTime(300,t); o.frequency.exponentialRampToValueAtTime(120,t+0.06);
+  g.gain.setValueAtTime(0.85,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.09);
+  o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.12);
+}
+
+// ── 808 BASS VARIANTS ──
+function play808(t){
+  const v = document.getElementById('sel-bass808').value;
+  if(v==='808_long')       play808Long(t);
+  else if(v==='808_tight')     play808Tight(t);
+  else if(v==='808_sub')       play808Sub(t);
+  else if(v==='808_distorted') play808Distorted(t);
+  else                         play808Classic(t);
+}
+function play808Classic(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter(), c=getChGain('bass808',t);
+  o.type='sine'; o.frequency.setValueAtTime(55,t); o.frequency.exponentialRampToValueAtTime(40,t+0.05); o.frequency.setValueAtTime(40,t+0.05);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(200,t);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1.2,t+0.005); g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
+  o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.75);
+}
+function play808Long(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter(), c=getChGain('bass808',t);
+  o.type='sine'; o.frequency.setValueAtTime(55,t); o.frequency.exponentialRampToValueAtTime(38,t+0.08);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(180,t);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1.3,t+0.005); g.gain.exponentialRampToValueAtTime(0.001,t+1.4);
+  o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+1.5);
+}
+function play808Tight(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter(), c=getChGain('bass808',t);
+  o.type='sine'; o.frequency.setValueAtTime(60,t); o.frequency.exponentialRampToValueAtTime(45,t+0.03);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(220,t);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1.1,t+0.003); g.gain.exponentialRampToValueAtTime(0.001,t+0.25);
+  o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.28);
+}
+function play808Sub(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter(), c=getChGain('bass808',t);
+  o.type='sine'; o.frequency.setValueAtTime(40,t);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(100,t);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1.5,t+0.008); g.gain.exponentialRampToValueAtTime(0.001,t+1.0);
+  o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+1.1);
+}
+function play808Distorted(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter();
+  const dist=audioCtx.createWaveShaper(), c=getChGain('bass808',t);
+  const curve=new Float32Array(512);
+  for(let i=0;i<512;i++){ const x=i*2/512-1; curve[i]=Math.tanh(x*5); }
+  dist.curve=curve;
+  o.type='sawtooth'; o.frequency.setValueAtTime(55,t); o.frequency.exponentialRampToValueAtTime(38,t+0.06);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(400,t);
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.5,t+0.005); g.gain.exponentialRampToValueAtTime(0.001,t+0.6);
+  o.connect(dist); dist.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.65);
+}
+
+// ── SYNTH FX VARIANTS ──
+function playFX(t){
+  const v = document.getElementById('sel-fx').value;
+  if(v==='fx_stab')   playFXStab(t);
+  else if(v==='fx_bell')   playFXBell(t);
+  else if(v==='fx_laser')  playFXLaser(t);
+  else                     playFXZap(t);
+}
+function playFXZap(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('fx',t), f=audioCtx.createBiquadFilter();
+  o.type='sawtooth'; o.frequency.setValueAtTime(800,t); o.frequency.exponentialRampToValueAtTime(80,t+0.12);
+  f.type='bandpass'; f.frequency.setValueAtTime(600,t); f.Q.setValueAtTime(8,t);
+  g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.12);
+  o.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.15);
+}
+function playFXStab(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('fx',t), f=audioCtx.createBiquadFilter();
+  o.type='sawtooth'; o.frequency.setValueAtTime(220,t);
+  f.type='lowpass'; f.frequency.setValueAtTime(2000,t); f.frequency.exponentialRampToValueAtTime(400,t+0.08);
+  g.gain.setValueAtTime(0.6,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.1);
+  o.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.12);
+}
+function playFXBell(t){
+  const o=audioCtx.createOscillator(), o2=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('fx',t);
+  o.type='sine'; o.frequency.setValueAtTime(880,t);
+  o2.type='sine'; o2.frequency.setValueAtTime(1760,t);
+  g.gain.setValueAtTime(0.4,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.8);
+  o.connect(g); o2.connect(g); g.connect(c); c.connect(mainGainNode);
+  o.start(t); o.stop(t+0.9); o2.start(t); o2.stop(t+0.9);
+}
+function playFXLaser(t){
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), c=getChGain('fx',t);
+  o.type='square'; o.frequency.setValueAtTime(1200,t); o.frequency.exponentialRampToValueAtTime(200,t+0.08);
+  g.gain.setValueAtTime(0.3,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.09);
+  o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.1);
+}
 
 function playSynthNote(freq){
   if(!audioCtx) initAudio();
@@ -876,7 +1306,7 @@ function triggerPlay(inst){
   if(!audioCtx) initAudio();
   if(audioCtx.state==='suspended') audioCtx.resume();
   const t=audioCtx.currentTime;
-  ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,fx:playFX})[inst](t);
+  ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,bass808:play808,fx:playFX})[inst](t);
 }
 
 // ── Sequencer ──
@@ -887,7 +1317,7 @@ function nextStepFn(){ nextNoteTime += (60/tempo)/4; currentStep = (currentStep+
 function scheduleNote(step,time){
   document.querySelectorAll('.seq-row').forEach(r=>{
     const inst=r.dataset.inst, btn=r.querySelector(`[data-step="${step}"]`);
-    if(btn&&btn.classList.contains('active')) ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,fx:playFX})[inst](time);
+    if(btn&&btn.classList.contains('active')) ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,bass808:play808,fx:playFX})[inst](time);
   });
   setTimeout(()=>{
     document.querySelectorAll('.step').forEach(b=>b.classList.remove('current'));
