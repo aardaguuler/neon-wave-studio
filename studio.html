@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neon Wave Studio</title>
+  <title>Neon Wave Studio Pro</title>
   <!-- Google Fonts: Inter ve Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-dark: #070913;
-      --panel-bg: rgba(13, 17, 39, 0.6);
-      --border-color: rgba(0, 242, 254, 0.15);
+      --bg-dark: #05070f;
+      --panel-bg: rgba(10, 12, 28, 0.7);
+      --panel-border: rgba(0, 242, 254, 0.12);
       --neon-blue: #00f2fe;
       --neon-pink: #f355da;
       --neon-purple: #7000ff;
+      --neon-green: #39ff14;
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --grid-active: #00f2fe;
+      --text-muted: #64748b;
+      --text-active: #00f2fe;
     }
 
     * {
@@ -33,42 +34,27 @@
       background: var(--bg-dark);
       color: var(--text-main);
       overflow-x: hidden;
-      padding: 16px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
     }
 
-    /* Scrollbar Tasarımı */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-dark);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--neon-blue);
-    }
-
     .studio-container {
       width: 100%;
-      max-width: 950px;
+      max-width: 1100px;
       background: var(--panel-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 
-                  0 0 40px rgba(112, 0, 255, 0.05);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--panel-border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                  0 0 50px rgba(112, 0, 255, 0.04);
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
     }
 
     /* Üst Kontrol Paneli */
@@ -78,14 +64,14 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 14px;
     }
 
     .brand-section h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 26px;
-      font-weight: 800;
+      font-size: 24px;
+      font-weight: 900;
       background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -96,15 +82,17 @@
     }
 
     .brand-section p {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 2px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
 
     .global-controls {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
@@ -113,89 +101,80 @@
       background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
       color: white;
       border: none;
-      padding: 12px 28px;
-      font-size: 15px;
+      padding: 10px 24px;
+      font-size: 14px;
       font-weight: 700;
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 20px rgba(243, 85, 218, 0.3);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 15px rgba(243, 85, 218, 0.25);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .btn-main:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px rgba(243, 85, 218, 0.5);
-    }
-
-    .btn-main:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
+      box-shadow: 0 0 25px rgba(243, 85, 218, 0.4);
     }
 
     .btn-main.playing {
       background: linear-gradient(135deg, #00b4db, #00f2fe);
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
     }
 
     .tempo-slider-container {
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.04);
-      padding: 10px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
     .tempo-slider-container label {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       color: var(--text-muted);
-      width: 70px;
     }
 
     .tempo-slider {
       -webkit-appearance: none;
-      width: 120px;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
+      width: 100px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
       outline: none;
     }
 
     .tempo-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       background: var(--neon-blue);
       cursor: pointer;
-      box-shadow: 0 0 8px var(--neon-blue);
-      transition: all 0.2s;
-    }
-
-    .tempo-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
+      box-shadow: 0 0 6px var(--neon-blue);
+      transition: all 0.15s;
     }
 
     .bpm-display {
       font-family: 'Outfit', sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--neon-blue);
-      width: 40px;
+      width: 32px;
       text-align: right;
     }
 
     /* Görselleştirici Canvas */
     .visualizer-card {
       width: 100%;
-      height: 90px;
-      background: rgba(4, 6, 17, 0.7);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      height: 60px;
+      background: rgba(3, 5, 12, 0.8);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
       position: relative;
       overflow: hidden;
     }
@@ -206,35 +185,37 @@
       display: block;
     }
 
-    /* Ritim Dizici (Sequencer) ve Ped Alanı */
+    /* Ritim Adımlayıcı Bölümü */
     .section-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .section-title span {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--neon-pink);
       display: inline-block;
-      box-shadow: 0 0 8px var(--neon-pink);
+      box-shadow: 0 0 6px var(--neon-pink);
     }
 
     .sequencer-grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.01);
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
     }
 
     .sequencer-row {
@@ -243,239 +224,274 @@
       gap: 12px;
     }
 
+    /* Kanal Bilgi / Mikser Alanı (Satır Başı) */
+    .channel-mixer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 200px;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
     .instrument-label {
-      width: 90px;
-      font-size: 12px;
+      flex-grow: 1;
+      font-size: 11px;
       font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
-      padding: 8px 10px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.02);
-      text-align: center;
-      transition: all 0.2s;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      transition: all 0.2s;
     }
 
     .instrument-label:hover {
-      background: rgba(255, 255, 255, 0.08);
       color: var(--text-main);
-      border-color: rgba(255, 255, 255, 0.1);
     }
 
-    .instrument-label:active {
-      transform: scale(0.95);
-    }
-
-    .step-buttons {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      gap: 8px;
-      flex-grow: 1;
-    }
-
-    .step-btn {
-      aspect-ratio: 1.2;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-    }
-
-    .step-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .step-btn.active {
-      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(0, 242, 254, 0.4));
-      border-color: var(--neon-blue);
-      box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
-    }
-
-    .step-btn.active::after {
-      content: '';
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--neon-blue);
-      box-shadow: 0 0 6px var(--neon-blue);
-    }
-
-    /* Sıralayıcının o an çalan adım vurgulaması */
-    .step-btn.current {
-      border-color: var(--neon-pink);
-      transform: scale(1.05);
-      box-shadow: 0 0 12px rgba(243, 85, 218, 0.4);
-      z-index: 2;
-    }
-
-    /* Piyano Klavyesi */
-    .piano-wrapper {
-      background: rgba(255, 255, 255, 0.02);
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .piano-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .piano-control-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 6px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-    }
-
-    .piano-control-group label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .piano-select {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-main);
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      outline: none;
-      cursor: pointer;
-    }
-
-    .piano-slider {
+    /* Kanal Volume Slider */
+    .vol-slider {
       -webkit-appearance: none;
-      width: 100px;
-      height: 4px;
+      width: 50px;
+      height: 3px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 2px;
       outline: none;
     }
 
-    .piano-slider::-webkit-slider-thumb {
+    .vol-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: var(--neon-pink);
+      background: var(--neon-blue);
       cursor: pointer;
+    }
+
+    /* Mute Butonu */
+    .mute-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      font-size: 9px;
+      font-weight: 800;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .mute-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+    }
+
+    .mute-btn.muted {
+      background: rgba(243, 85, 218, 0.15);
+      border-color: var(--neon-pink);
+      color: var(--neon-pink);
+    }
+
+    /* 16 Adımlı Izgara */
+    .step-buttons {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 4px;
+      flex-grow: 1;
+    }
+
+    .step-btn {
+      aspect-ratio: 1.1;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    /* 4'lük Beat grupları için hafif görsel ayrım */
+    .step-buttons .step-btn:nth-child(4n+1) {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .step-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .step-btn.active {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(0, 242, 254, 0.45));
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 8px rgba(0, 242, 254, 0.25);
+    }
+
+    .step-btn.active::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--neon-blue);
+      box-shadow: 0 0 4px var(--neon-blue);
+    }
+
+    .step-btn.current {
+      border-color: var(--neon-pink);
+      transform: scale(1.08);
+      box-shadow: 0 0 10px rgba(243, 85, 218, 0.35);
+      z-index: 2;
+    }
+
+    /* Piyano ve Efekt Paneli (Çift Sütun Düzeni) */
+    .synth-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .panel-card {
+      background: rgba(255, 255, 255, 0.01);
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .piano-keys {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
-      gap: 6px;
-      height: 140px;
+      gap: 4px;
+      height: 110px;
     }
 
     .piano-key {
-      background: linear-gradient(to bottom, #ffffff 70%, #e2e8f0 100%);
-      color: #1e293b;
+      background: linear-gradient(to bottom, #ffffff 75%, #cbd5e1 100%);
+      color: #0f172a;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       font-family: 'Outfit', sans-serif;
-      font-size: 14px;
+      font-size: 11px;
       font-weight: 800;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       align-items: center;
-      padding-bottom: 12px;
+      padding-bottom: 8px;
       transition: all 0.1s ease-out;
-      box-shadow: 0 6px 0 #cbd5e1, 0 10px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 0 #94a3b8, 0 6px 10px rgba(0,0,0,0.15);
       position: relative;
     }
 
     .piano-key:hover {
-      background: linear-gradient(to bottom, #f8fafc 70%, #cbd5e1 100%);
+      background: linear-gradient(to bottom, #f8fafc 75%, #94a3b8 100%);
     }
 
     .piano-key:active, .piano-key.active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #94a3b8, 0 4px 6px rgba(0,0,0,0.15);
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #64748b, 0 2px 4px rgba(0,0,0,0.15);
       background: linear-gradient(to bottom, var(--neon-blue) 0%, #00d2de 100%);
       color: white;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
     }
 
     .piano-key::before {
       content: attr(data-letter);
       position: absolute;
-      top: 10px;
-      font-size: 10px;
-      font-weight: 700;
-      color: rgba(0, 0, 0, 0.4);
-      background: rgba(0,0,0,0.06);
-      padding: 2px 5px;
-      border-radius: 4px;
+      top: 6px;
+      font-size: 9px;
+      font-weight: 800;
+      color: rgba(0, 0, 0, 0.35);
+      background: rgba(0,0,0,0.05);
+      padding: 1px 4px;
+      border-radius: 3px;
     }
-    
+
     .piano-key:active::before, .piano-key.active::before {
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.7);
       background: rgba(255,255,255,0.15);
     }
 
-    /* Bilgi İpuçları Paneli */
-    .tips-panel {
-      display: flex;
-      gap: 12px;
-      background: rgba(0, 242, 254, 0.02);
-      border: 1px dashed rgba(0, 242, 254, 0.2);
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.5;
+    /* Efekt Parametreleri Izgarası */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
-    .tips-icon {
-      font-size: 16px;
+    .control-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .control-item label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .control-item label span {
       color: var(--neon-blue);
     }
 
+    .control-input {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .control-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      outline: none;
+      margin: 4px 0;
+    }
+
+    .control-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--neon-pink);
+      cursor: pointer;
+    }
+
     /* Mobil Uyum */
-    @media (max-width: 600px) {
-      .header-panel {
-        flex-direction: column;
-        align-items: stretch;
+    @media (max-width: 800px) {
+      .synth-panel {
+        grid-template-columns: 1fr;
       }
-      .global-controls {
-        flex-direction: column;
-        align-items: stretch;
+      .channel-mixer {
+        width: 130px;
       }
-      .tempo-slider-container {
-        justify-content: space-between;
-      }
-      .step-buttons {
-        gap: 4px;
-      }
-      .piano-key {
-        font-size: 11px;
-      }
-      .piano-key::before {
+      .vol-slider {
         display: none;
       }
     }
@@ -485,142 +501,212 @@
 
   <div class="studio-container">
     
-    <!-- Başlık & Kontroller -->
+    <!-- Üst Kontrol Paneli -->
     <div class="header-panel">
       <div class="brand-section">
-        <h1><span>⚡</span> NEON WAVE STUDIO</h1>
-        <p>Gecikmesiz Canlı Web Müzik & Ritim Laboratuvarı</p>
+        <h1><span>⚡</span> NEON WAVE STUDIO PRO</h1>
+        <p>16-Step Davul Sequencer & Delay Efektli Melodi Sentezleyici</p>
       </div>
       
       <div class="global-controls">
         <div class="tempo-slider-container">
-          <label for="tempo">Tempo (BPM)</label>
-          <input type="range" id="tempo" class="tempo-slider" min="60" max="200" value="120">
+          <label for="tempo">BPM</label>
+          <input type="range" id="tempo" class="tempo-slider" min="60" max="180" value="120">
           <span class="bpm-display" id="bpm-val">120</span>
         </div>
         <button class="btn-main" id="play-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           Döngüyü Başlat
         </button>
       </div>
     </div>
 
-    <!-- Canlı Dalga Analizcisi -->
+    <!-- Canlı Ses Dalga Analizcisi -->
     <div class="visualizer-card">
       <canvas id="visualizer"></canvas>
     </div>
 
-    <!-- Ritim Adımlayıcı (Sequencer) -->
+    <!-- Ritim Adımlayıcı (16 Adım Sequencer) -->
     <div>
       <div class="section-title">
-        <span></span> Ritim Oluşturucu (Drum Sequencer)
+        <span></span> 16-Step Ritim Dizici (Drum Sequencer)
       </div>
       <div class="sequencer-grid">
-        <!-- Snare Satırı -->
+        
+        <!-- Kick -->
         <div class="sequencer-row" data-inst="kick">
-          <div class="instrument-label" onclick="triggerPlay('kick')">🔊 Kick (Bas)</div>
+          <div class="channel-mixer">
+            <div class="instrument-label" onclick="triggerPlay('kick')">🔊 Kick (Bas)</div>
+            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.8" oninput="changeChannelVol('kick', this.value)">
+            <button class="mute-btn" onclick="toggleMute('kick', this)">M</button>
+          </div>
           <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button>
-            <button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button>
-            <button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button>
-            <button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button>
-            <button class="step-btn" data-step="7"></button>
+            <!-- 16 Adım Butonları -->
+            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
+            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
+            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
+            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
+            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
+            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
+            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
           </div>
         </div>
 
-        <!-- Snare Satırı -->
+        <!-- Snare -->
         <div class="sequencer-row" data-inst="snare">
-          <div class="instrument-label" onclick="triggerPlay('snare')">🥁 Snare (Trampet)</div>
+          <div class="channel-mixer">
+            <div class="instrument-label" onclick="triggerPlay('snare')">🥁 Snare (Trampet)</div>
+            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.7" oninput="changeChannelVol('snare', this.value)">
+            <button class="mute-btn" onclick="toggleMute('snare', this)">M</button>
+          </div>
           <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button>
-            <button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button>
-            <button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button>
-            <button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button>
-            <button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
+            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
+            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
+            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
+            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
+            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
+            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
           </div>
         </div>
 
-        <!-- HiHat Satırı -->
+        <!-- HiHat -->
         <div class="sequencer-row" data-inst="hihat">
-          <div class="instrument-label" onclick="triggerPlay('hihat')">✨ Hi-Hat (Zil)</div>
+          <div class="channel-mixer">
+            <div class="instrument-label" onclick="triggerPlay('hihat')">✨ Hi-Hat (Zil)</div>
+            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.5" oninput="changeChannelVol('hihat', this.value)">
+            <button class="mute-btn" onclick="toggleMute('hihat', this)">M</button>
+          </div>
           <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button>
-            <button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button>
-            <button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button>
-            <button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button>
-            <button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
+            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
+            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
+            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
+            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
+            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
+            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
           </div>
         </div>
 
-        <!-- Clap Satırı -->
+        <!-- Clap -->
         <div class="sequencer-row" data-inst="clap">
-          <div class="instrument-label" onclick="triggerPlay('clap')">👏 Clap (Alkış)</div>
+          <div class="channel-mixer">
+            <div class="instrument-label" onclick="triggerPlay('clap')">👏 Clap (Alkış)</div>
+            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.6" oninput="changeChannelVol('clap', this.value)">
+            <button class="mute-btn" onclick="toggleMute('clap', this)">M</button>
+          </div>
           <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button>
-            <button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button>
-            <button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button>
-            <button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button>
-            <button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
+            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
+            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
+            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
+            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
+            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
+            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
           </div>
         </div>
+
+        <!-- Tom -->
+        <div class="sequencer-row" data-inst="tom">
+          <div class="channel-mixer">
+            <div class="instrument-label" onclick="triggerPlay('tom')">🍩 Tom (Orta Bas)</div>
+            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.7" oninput="changeChannelVol('tom', this.value)">
+            <button class="mute-btn" onclick="toggleMute('tom', this)">M</button>
+          </div>
+          <div class="step-buttons">
+            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
+            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
+            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
+            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
+            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
+            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
+            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
+          </div>
+        </div>
+
+        <!-- FX (Cyber Glitch) -->
+        <div class="sequencer-row" data-inst="fx">
+          <div class="channel-mixer">
+            <div class="instrument-label" onclick="triggerPlay('fx')">👽 Synth FX (Glitch)</div>
+            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.5" oninput="changeChannelVol('fx', this.value)">
+            <button class="mute-btn" onclick="toggleMute('fx', this)">M</button>
+          </div>
+          <div class="step-buttons">
+            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
+            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
+            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
+            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
+            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
+            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
+            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
+            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Mini Piyano -->
-    <div class="piano-wrapper">
-      <div class="piano-controls">
-        <div class="section-title" style="margin-bottom:0;">
-          <span style="background:var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue)"></span> Mini Melodi Klavyesi (Synthesizer)
+    <!-- Piyano & Efekt Paneli (Alt Kısım Çift Sütun) -->
+    <div class="synth-panel">
+      
+      <!-- Sol Sütun: Piyano Klavyesi -->
+      <div class="panel-card">
+        <div class="section-title" style="margin-bottom:4px;">
+          <span style="background:var(--neon-blue); box-shadow: 0 0 6px var(--neon-blue)"></span> Mini Melodi Klavyesi
         </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <div class="piano-control-group">
-            <label for="waveform">Dalga Tipi:</label>
-            <select id="waveform" class="piano-select">
-              <option value="sine">Sine (Yumuşak)</option>
+        <div class="piano-keys">
+          <button class="piano-key" data-note="261.63" data-letter="A">C4</button>
+          <button class="piano-key" data-note="293.66" data-letter="S">D4</button>
+          <button class="piano-key" data-note="329.63" data-letter="D">E4</button>
+          <button class="piano-key" data-note="349.23" data-letter="F">F4</button>
+          <button class="piano-key" data-note="392.00" data-letter="G">G4</button>
+          <button class="piano-key" data-note="440.00" data-letter="H">A4</button>
+          <button class="piano-key" data-note="493.88" data-letter="J">B4</button>
+          <button class="piano-key" data-note="523.25" data-letter="K">C5</button>
+        </div>
+      </div>
+
+      <!-- Sağ Sütun: Synthesizer Kontrolleri & Delay FX -->
+      <div class="panel-card">
+        <div class="section-title" style="margin-bottom:4px;">
+          <span style="background:var(--neon-pink); box-shadow: 0 0 6px var(--neon-pink)"></span> Synth & Delay FX Ayarları
+        </div>
+        
+        <div class="controls-grid">
+          
+          <div class="control-item">
+            <label>Dalga Şekli</label>
+            <select id="waveform" class="control-input">
               <option value="triangle" selected>Triangle (Klasik)</option>
+              <option value="sine">Sine (Yumuşak)</option>
               <option value="sawtooth">Sawtooth (Keskin)</option>
               <option value="square">Square (Retro)</option>
             </select>
           </div>
-          <div class="piano-control-group">
-            <label for="filter">Filtre (Karakter):</label>
-            <input type="range" id="filter" class="piano-slider" min="200" max="8000" value="3000">
+
+          <div class="control-item">
+            <label>Ses Sönme (Decay) <span id="decay-val">0.6s</span></label>
+            <input type="range" id="synth-decay" class="control-slider" min="0.1" max="2.0" step="0.1" value="0.6" oninput="document.getElementById('decay-val').innerText = this.value + 's'">
           </div>
+
+          <div class="control-item">
+            <label>Filtre Sıklığı <span id="cutoff-val">3000Hz</span></label>
+            <input type="range" id="filter" class="control-slider" min="200" max="8000" step="100" value="3000" oninput="document.getElementById('cutoff-val').innerText = this.value + 'Hz'">
+          </div>
+
+          <div class="control-item">
+            <label>Delay Yankı Gücü <span id="delay-feedback-val">30%</span></label>
+            <input type="range" id="delay-feedback" class="control-slider" min="0" max="0.8" step="0.05" value="0.3" oninput="updateDelayFeedback(this.value)">
+          </div>
+
         </div>
       </div>
 
-      <div class="piano-keys">
-        <button class="piano-key" data-note="261.63" data-letter="A">C4</button>
-        <button class="piano-key" data-note="293.66" data-letter="S">D4</button>
-        <button class="piano-key" data-note="329.63" data-letter="D">E4</button>
-        <button class="piano-key" data-note="349.23" data-letter="F">F4</button>
-        <button class="piano-key" data-note="392.00" data-letter="G">G4</button>
-        <button class="piano-key" data-note="440.00" data-letter="H">A4</button>
-        <button class="piano-key" data-note="493.88" data-letter="J">B4</button>
-        <button class="piano-key" data-note="523.25" data-letter="K">C5</button>
-      </div>
-    </div>
-
-    <!-- Alt İpuçları -->
-    <div class="tips-panel">
-      <div class="tips-icon">💡</div>
-      <div>
-        <strong>Hızlı Kısayollar ve İpuçları:</strong><br>
-        • Piyano tuşlarını çalmak için klavyenizdeki <strong>A, S, D, F, G, H, J, K</strong> harflerini kullanabilirsiniz!<br>
-        • Ritim dizicideki karelere tıklayarak kendi ritminizi yazın, ardından <strong>"Döngüyü Başlat"</strong> butonuna basın. Ritim çalarken piyano ile melodi ekleyebilirsiniz!
-      </div>
     </div>
 
   </div>
@@ -631,14 +717,36 @@
     let mainGainNode = null;
     let analyserNode = null;
 
+    // Delay (Yankı) Efekti Değişkenleri
+    let delayNode = null;
+    let delayFeedbackNode = null;
+
+    // Her enstrüman kanalı için ayrı ses seviyesi (Volume) kontrolleri
+    const channelVolumes = {
+      kick: 0.8,
+      snare: 0.7,
+      hihat: 0.5,
+      clap: 0.6,
+      tom: 0.7,
+      fx: 0.5
+    };
+
+    const channelMutes = {
+      kick: false,
+      snare: false,
+      hihat: false,
+      clap: false,
+      tom: false,
+      fx: false
+    };
+
     function initAudio() {
       if (audioCtx) return;
       
-      // Tarayıcının ses bağlamını (Audio Context) başlatıyoruz
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       audioCtx = new AudioContext();
       
-      // Genel ses seviyesi kontrolü
+      // Genel çıkış kontrolü
       mainGainNode = audioCtx.createGain();
       mainGainNode.gain.setValueAtTime(0.8, audioCtx.currentTime);
       
@@ -646,179 +754,291 @@
       analyserNode = audioCtx.createAnalyser();
       analyserNode.fftSize = 256;
       
-      // Bağlantıları kuruyoruz: Ses -> Analiz -> Hoparlör
+      // DELAY (YANKI) EFECT NODU BAĞLANTILARI
+      delayNode = audioCtx.createDelay(2.0);
+      delayFeedbackNode = audioCtx.createGain();
+      
+      // Delay ayarları
+      delayNode.delayTime.setValueAtTime(0.35, audioCtx.currentTime); // 350ms delay
+      const initialFeedback = parseFloat(document.getElementById('delay-feedback').value);
+      delayFeedbackNode.gain.setValueAtTime(initialFeedback, audioCtx.currentTime);
+      
+      // Geri besleme loop'u (Feedback Loop)
+      delayNode.connect(delayFeedbackNode);
+      delayFeedbackNode.connect(delayNode);
+      
+      // Delay çıkışını ana ses kanalına bağlama
+      delayNode.connect(mainGainNode);
+      
+      // Ana bağlantılar
       mainGainNode.connect(analyserNode);
       analyserNode.connect(audioCtx.destination);
       
       startVisualizer();
     }
 
+    // Mikser Fonksiyonları
+    function changeChannelVol(inst, val) {
+      channelVolumes[inst] = parseFloat(val);
+    }
+
+    function toggleMute(inst, btn) {
+      channelMutes[inst] = !channelMutes[inst];
+      if (channelMutes[inst]) {
+        btn.classList.add('muted');
+        btn.innerText = 'S';
+      } else {
+        btn.classList.remove('muted');
+        btn.innerText = 'M';
+      }
+    }
+
+    function updateDelayFeedback(val) {
+      const percentage = Math.round(val * 100) + '%';
+      document.getElementById('delay-feedback-val').innerText = percentage;
+      if (delayFeedbackNode && audioCtx) {
+        delayFeedbackNode.gain.setValueAtTime(parseFloat(val), audioCtx.currentTime);
+      }
+    }
+
     // --- ENSTRÜMAN SENTEZLEYİCİLERİ ---
 
-    // 1. KICK (Bas Davul) - Alçalan frekanslı sinüs dalgası
+    function getChannelGain(inst, time) {
+      const gainNode = audioCtx.createGain();
+      const finalVol = channelMutes[inst] ? 0.0 : channelVolumes[inst];
+      gainNode.gain.setValueAtTime(finalVol, time);
+      return gainNode;
+    }
+
+    // 1. KICK
     function playKick(time) {
       if (!audioCtx) initAudio();
       
       const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
+      const channelGain = getChannelGain('kick', time);
+      const voiceGain = audioCtx.createGain();
       
-      osc.connect(gain);
-      gain.connect(mainGainNode);
+      osc.connect(voiceGain);
+      voiceGain.connect(channelGain);
+      channelGain.connect(mainGainNode);
       
       osc.type = 'sine';
-      // Pitch envelope: 150 Hz'den 0.01 Hz'e hızlıca kayar
-      osc.frequency.setValueAtTime(150, time);
-      osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.3);
+      osc.frequency.setValueAtTime(140, time);
+      osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.28);
       
-      // Ses seviyesi envelope: Hızlı sönümlenir (decay)
-      gain.gain.setValueAtTime(1.0, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+      voiceGain.gain.setValueAtTime(1.0, time);
+      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.28);
       
       osc.start(time);
       osc.stop(time + 0.3);
     }
 
-    // Gürültü Üretici Yardımcı Fonksiyon (Snare, Hi-hat için beyaz gürültü)
-    function createNoiseBuffer() {
-      const bufferSize = audioCtx.sampleRate * 0.5; // 0.5 saniye
+    // Gürültü Üretici (White Noise Buffer)
+    let noiseBufferCache = null;
+    function getNoiseBuffer() {
+      if (noiseBufferCache) return noiseBufferCache;
+      
+      const bufferSize = audioCtx.sampleRate * 0.5;
       const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
         data[i] = Math.random() * 2 - 1;
       }
+      noiseBufferCache = buffer;
       return buffer;
     }
 
-    // 2. SNARE (Trampet) - Filtrelenmiş beyaz gürültü ve hafif gövde tonu
+    // 2. SNARE
     function playSnare(time) {
       if (!audioCtx) initAudio();
       
-      // Gürültü bileşeni
       const noiseSource = audioCtx.createBufferSource();
-      noiseSource.buffer = createNoiseBuffer();
+      noiseSource.buffer = getNoiseBuffer();
       
       const noiseFilter = audioCtx.createBiquadFilter();
       noiseFilter.type = 'bandpass';
-      noiseFilter.frequency.setValueAtTime(1000, time);
+      noiseFilter.frequency.setValueAtTime(1200, time);
       
-      const noiseGain = audioCtx.createGain();
-      noiseGain.gain.setValueAtTime(0.7, time);
-      noiseGain.gain.exponentialRampToValueAtTime(0.01, time + 0.2);
+      const voiceGain = audioCtx.createGain();
+      voiceGain.gain.setValueAtTime(0.6, time);
+      voiceGain.gain.exponentialRampToValueAtTime(0.01, time + 0.18);
+      
+      const channelGain = getChannelGain('snare', time);
       
       noiseSource.connect(noiseFilter);
-      noiseFilter.connect(noiseGain);
-      noiseGain.connect(mainGainNode);
+      noiseFilter.connect(voiceGain);
+      voiceGain.connect(channelGain);
+      channelGain.connect(mainGainNode);
       
-      // Gövde tonu (vurmalı osilatör)
+      // Vuruş gövdesi tonu
       const osc = audioCtx.createOscillator();
       const oscGain = audioCtx.createGain();
       
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(180, time);
-      osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.1);
+      osc.frequency.setValueAtTime(170, time);
+      osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.08);
       
-      oscGain.gain.setValueAtTime(0.8, time);
-      oscGain.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+      oscGain.gain.setValueAtTime(0.7, time);
+      oscGain.gain.exponentialRampToValueAtTime(0.01, time + 0.08);
       
       osc.connect(oscGain);
-      oscGain.connect(mainGainNode);
+      oscGain.connect(channelGain);
       
       noiseSource.start(time);
-      noiseSource.stop(time + 0.25);
+      noiseSource.stop(time + 0.2);
+      
+      osc.start(time);
+      osc.stop(time + 0.1);
+    }
+
+    // 3. HI-HAT
+    function playHihat(time) {
+      if (!audioCtx) initAudio();
+      
+      const source = audioCtx.createBufferSource();
+      source.buffer = getNoiseBuffer();
+      
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'highpass';
+      filter.frequency.setValueAtTime(8000, time);
+      
+      const voiceGain = audioCtx.createGain();
+      voiceGain.gain.setValueAtTime(0.25, time);
+      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.04);
+      
+      const channelGain = getChannelGain('hihat', time);
+      
+      source.connect(filter);
+      filter.connect(voiceGain);
+      voiceGain.connect(channelGain);
+      channelGain.connect(mainGainNode);
+      
+      source.start(time);
+      source.stop(time + 0.05);
+    }
+
+    // 4. CLAP
+    function playClap(time) {
+      if (!audioCtx) initAudio();
+      
+      const source = audioCtx.createBufferSource();
+      source.buffer = getNoiseBuffer();
+      
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(1300, time);
+      
+      const voiceGain = audioCtx.createGain();
+      voiceGain.gain.setValueAtTime(0.5, time);
+      voiceGain.gain.exponentialRampToValueAtTime(0.01, time + 0.02);
+      voiceGain.gain.setValueAtTime(0.4, time + 0.025);
+      voiceGain.gain.exponentialRampToValueAtTime(0.01, time + 0.045);
+      voiceGain.gain.setValueAtTime(0.6, time + 0.05);
+      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.16);
+      
+      const channelGain = getChannelGain('clap', time);
+      
+      source.connect(filter);
+      filter.connect(voiceGain);
+      voiceGain.connect(channelGain);
+      channelGain.connect(mainGainNode);
+      
+      source.start(time);
+      source.stop(time + 0.2);
+    }
+
+    // 5. TOM (Medium Tom)
+    function playTom(time) {
+      if (!audioCtx) initAudio();
+      
+      const osc = audioCtx.createOscillator();
+      const voiceGain = audioCtx.createGain();
+      const channelGain = getChannelGain('tom', time);
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(110, time);
+      osc.frequency.exponentialRampToValueAtTime(45, time + 0.22);
+      
+      voiceGain.gain.setValueAtTime(0.9, time);
+      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.22);
+      
+      osc.connect(voiceGain);
+      voiceGain.connect(channelGain);
+      channelGain.connect(mainGainNode);
+      
+      osc.start(time);
+      osc.stop(time + 0.25);
+    }
+
+    // 6. SYNTH FX (Glitch / Modulated Sound)
+    function playFX(time) {
+      if (!audioCtx) initAudio();
+      
+      const osc = audioCtx.createOscillator();
+      const voiceGain = audioCtx.createGain();
+      const channelGain = getChannelGain('fx', time);
+      
+      osc.type = 'sawtooth';
+      // Hızlı frekans kayması
+      osc.frequency.setValueAtTime(800, time);
+      osc.frequency.exponentialRampToValueAtTime(80, time + 0.12);
+      
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(600, time);
+      filter.Q.setValueAtTime(8, time);
+      
+      voiceGain.gain.setValueAtTime(0.5, time);
+      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.12);
+      
+      osc.connect(filter);
+      filter.connect(voiceGain);
+      voiceGain.connect(channelGain);
+      channelGain.connect(mainGainNode);
       
       osc.start(time);
       osc.stop(time + 0.15);
     }
 
-    // 3. HI-HAT (Zil) - Yüksek frekansta filtrelenmiş kısa beyaz gürültü
-    function playHihat(time) {
-      if (!audioCtx) initAudio();
-      
-      const source = audioCtx.createBufferSource();
-      source.buffer = createNoiseBuffer();
-      
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'highpass';
-      filter.frequency.setValueAtTime(7000, time);
-      
-      const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.3, time);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05); // Çok hızlı söner
-      
-      source.connect(filter);
-      filter.connect(gain);
-      gain.connect(mainGainNode);
-      
-      source.start(time);
-      source.stop(time + 0.06);
-    }
-
-    // 4. CLAP (Alkış) - Çoklu hızlı gürültü patlamaları
-    function playClap(time) {
-      if (!audioCtx) initAudio();
-      
-      const source = audioCtx.createBufferSource();
-      source.buffer = createNoiseBuffer();
-      
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(1200, time);
-      
-      const gain = audioCtx.createGain();
-      
-      // Hızlı alkış efekti için dalgalı seviye envelope'u
-      gain.gain.setValueAtTime(0.6, time);
-      gain.gain.exponentialRampToValueAtTime(0.01, time + 0.02);
-      
-      gain.gain.setValueAtTime(0.5, time + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
-      
-      gain.gain.setValueAtTime(0.7, time + 0.06);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.2);
-      
-      source.connect(filter);
-      filter.connect(gain);
-      gain.connect(mainGainNode);
-      
-      source.start(time);
-      source.stop(time + 0.25);
-    }
-
-    // Piyano Notalarını Çalma Fonksiyonu
+    // Synthesizer Notalarını Çalma Fonksiyonu (Filtre + Delay Desteği)
     function playSynthNote(freq) {
       if (!audioCtx) initAudio();
-      
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
 
       const osc = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
+      const voiceGain = audioCtx.createGain();
       const filterNode = audioCtx.createBiquadFilter();
 
       const type = document.getElementById('waveform').value;
       const filterFreq = parseFloat(document.getElementById('filter').value);
+      const decayTime = parseFloat(document.getElementById('synth-decay').value);
 
       osc.type = type;
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
+      // Lowpass Filtresi
       filterNode.type = 'lowpass';
       filterNode.frequency.setValueAtTime(filterFreq, audioCtx.currentTime);
-      // Filtre envelope'u: Ses ilk vurulduğunda biraz daha parlak olur, sonra söner
-      filterNode.frequency.exponentialRampToValueAtTime(filterFreq * 0.4, audioCtx.currentTime + 0.6);
+      filterNode.Q.setValueAtTime(2.0, audioCtx.currentTime); // Parlaklığı artırmak için Q ekliyoruz
+      filterNode.frequency.exponentialRampToValueAtTime(filterFreq * 0.3, audioCtx.currentTime + decayTime);
 
-      gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6); // 0.6 saniyede sönümlenir
+      // Ses Seviyesi Envelope
+      voiceGain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+      voiceGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + decayTime);
 
+      // Bağlantılar: Ses -> Filtre -> Gain
       osc.connect(filterNode);
-      filterNode.connect(gainNode);
-      gainNode.connect(mainGainNode);
+      filterNode.connect(voiceGain);
+      
+      // Yarı kuru (Direct Main), Yarı ıslak (Delay Node) bağlantı
+      voiceGain.connect(mainGainNode); // Kuru ses
+      voiceGain.connect(delayNode);    // Islak yankılı ses (Delay kanalına)
 
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.6);
+      osc.stop(audioCtx.currentTime + decayTime + 0.1);
     }
 
-    // Pedi elle tetikleme yardımı (etiketlere tıklandığında)
+    // Ped Manuel Tetikleyici
     function triggerPlay(inst) {
       if (!audioCtx) initAudio();
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -828,41 +1048,44 @@
       else if (inst === 'snare') playSnare(now);
       else if (inst === 'hihat') playHihat(now);
       else if (inst === 'clap') playClap(now);
+      else if (inst === 'tom') playTom(now);
+      else if (inst === 'fx') playFX(now);
     }
 
-    // --- SEQUENCER (RİTİM DİZİCİ) MANTIĞI ---
+    // --- 16 ADIMLI SEQUENCER MANTIĞI ---
     let isPlaying = false;
     let currentStep = 0;
-    let tempo = 120; // BPM
+    let tempo = 120;
     let timerId = null;
     let nextNoteTime = 0.0;
-    const scheduleAheadTime = 0.1; // Önceden planlama süresi (saniye)
-    const lookahead = 25.0; // Milisaniye cinsinden ne sıklıkla taranacağı
+    const scheduleAheadTime = 0.1;
+    const lookahead = 25.0;
 
     function nextStep() {
       const secondsPerBeat = 60.0 / tempo;
-      const stepDuration = secondsPerBeat / 2; // Her vuruşu 2 adıma bölüyoruz (8'lik ritim)
+      const stepDuration = secondsPerBeat / 4; // 16'lık adımlara bölme (Beat başına 4 adım)
       nextNoteTime += stepDuration;
       
-      currentStep = (currentStep + 1) % 8;
+      currentStep = (currentStep + 1) % 16;
     }
 
     function scheduleNote(stepNum, time) {
-      // Satırları kontrol edip adımları tetikliyoruz
       const rows = document.querySelectorAll('.sequencer-row');
       rows.forEach(row => {
         const inst = row.getAttribute('data-inst');
         const stepBtn = row.querySelector(`[data-step="${stepNum}"]`);
         
-        if (stepBtn.classList.contains('active')) {
+        if (stepBtn && stepBtn.classList.contains('active')) {
           if (inst === 'kick') playKick(time);
           if (inst === 'snare') playSnare(time);
           if (inst === 'hihat') playHihat(time);
           if (inst === 'clap') playClap(time);
+          if (inst === 'tom') playTom(time);
+          if (inst === 'fx') playFX(time);
         }
       });
 
-      // Görsel olarak o anki adımı güncelliyoruz
+      // Görsel olarak mevcut adımı takip etme
       setTimeout(() => {
         const allBtns = document.querySelectorAll('.step-btn');
         allBtns.forEach(btn => btn.classList.remove('current'));
@@ -882,16 +1105,14 @@
 
     function startSequencer() {
       initAudio();
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
       
       isPlaying = true;
       currentStep = 0;
       nextNoteTime = audioCtx.currentTime + 0.05;
       
       document.getElementById('play-btn').innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
         Döngüyü Durdur
       `;
       document.getElementById('play-btn').classList.add('playing');
@@ -904,28 +1125,22 @@
       clearTimeout(timerId);
       
       document.getElementById('play-btn').innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         Döngüyü Başlat
       `;
       document.getElementById('play-btn').classList.remove('playing');
       
-      // Adım işaretçilerini temizle
       const allBtns = document.querySelectorAll('.step-btn');
       allBtns.forEach(btn => btn.classList.remove('current'));
     }
 
     // --- ETKİLEŞİM & OLAY YÖNETİCİLERİ ---
 
-    // 1. Oynat / Durdur Butonu
     document.getElementById('play-btn').addEventListener('click', () => {
-      if (isPlaying) {
-        stopSequencer();
-      } else {
-        startSequencer();
-      }
+      if (isPlaying) stopSequencer();
+      else startSequencer();
     });
 
-    // 2. Tempo Slider
     const tempoSlider = document.getElementById('tempo');
     const bpmVal = document.getElementById('bpm-val');
     tempoSlider.addEventListener('input', (e) => {
@@ -933,12 +1148,10 @@
       bpmVal.innerText = tempo;
     });
 
-    // 3. Sequencer Karelerine Tıklama
     const stepBtns = document.querySelectorAll('.step-btn');
     stepBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         btn.classList.toggle('active');
-        // Kullanıcı tıkladığında sesi önizleme olarak çal
         if (btn.classList.contains('active')) {
           const inst = btn.closest('.sequencer-row').getAttribute('data-inst');
           triggerPlay(inst);
@@ -946,7 +1159,7 @@
       });
     });
 
-    // 4. Piyano Tuşları (Mouse Tıklaması)
+    // Piyano Tuşları
     const pianoKeys = document.querySelectorAll('.piano-key');
     pianoKeys.forEach(key => {
       key.addEventListener('mousedown', () => {
@@ -957,7 +1170,6 @@
       key.addEventListener('mouseup', () => key.classList.remove('active'));
       key.addEventListener('mouseleave', () => key.classList.remove('active'));
       
-      // Mobil dokunmatik desteği
       key.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const freq = parseFloat(key.getAttribute('data-note'));
@@ -967,7 +1179,6 @@
       key.addEventListener('touchend', () => key.classList.remove('active'));
     });
 
-    // 5. Bilgisayar Klavyesi Desteği (A, S, D, F, G, H, J, K)
     const keyMap = {
       'a': pianoKeys[0], 'A': pianoKeys[0],
       's': pianoKeys[1], 'S': pianoKeys[1],
@@ -991,17 +1202,13 @@
 
     window.addEventListener('keyup', (e) => {
       const keyBtn = keyMap[e.key];
-      if (keyBtn) {
-        keyBtn.classList.remove('active');
-      }
+      if (keyBtn) keyBtn.classList.remove('active');
     });
 
-
-    // --- SES GÖRSELLEŞTİRİCİ (CANVAS VISUALIZER) ---
+    // --- SES GÖRSELLEŞTİRİCİ ---
     const canvas = document.getElementById('visualizer');
     const ctx = canvas.getContext('2d');
 
-    // Canvas boyutlarını ayarlama
     function resizeCanvas() {
       canvas.width = canvas.parentElement.clientWidth * window.devicePixelRatio;
       canvas.height = canvas.parentElement.clientHeight * window.devicePixelRatio;
@@ -1022,16 +1229,13 @@
         
         analyserNode.getByteTimeDomainData(dataArray);
         
-        // Arka planı hafif şeffaf temizliyoruz (hareket izi - motion blur için)
-        ctx.fillStyle = 'rgba(7, 9, 19, 0.2)';
+        ctx.fillStyle = 'rgba(5, 7, 15, 0.25)';
         ctx.fillRect(0, 0, width, height);
         
-        ctx.lineWidth = 3;
-        // Neon ışık dalgası efekti
-        ctx.shadowBlur = 10;
+        ctx.lineWidth = 2.5;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = '#00f2fe';
         
-        // Gradiyent çizgi rengi
         const grad = ctx.createLinearGradient(0, 0, width, 0);
         grad.addColorStop(0, '#00f2fe');
         grad.addColorStop(0.5, '#7000ff');
@@ -1039,40 +1243,34 @@
         ctx.strokeStyle = grad;
         
         ctx.beginPath();
-        
         const sliceWidth = width / bufferLength;
         let x = 0;
         
         for (let i = 0; i < bufferLength; i++) {
-          const v = dataArray[i] / 128.0; // 0.0 ile 2.0 arasında
+          const v = dataArray[i] / 128.0;
           const y = (v * height) / 2;
           
-          if (i === 0) {
-            ctx.moveTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
-          }
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
           
           x += sliceWidth;
         }
         
         ctx.lineTo(width, height / 2);
         ctx.stroke();
-        ctx.shadowBlur = 0; // Gölgeyi diğer çizimler için kapatıyoruz
+        ctx.shadowBlur = 0;
       }
       
       draw();
     }
 
-    // İlk statik dalga çizimi (ses aktif değilken)
     function drawStaticWave() {
       const width = canvas.width / window.devicePixelRatio;
       const height = canvas.height / window.devicePixelRatio;
-      ctx.fillStyle = '#070913';
+      ctx.fillStyle = '#05070f';
       ctx.fillRect(0, 0, width, height);
-      
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = 'rgba(0, 242, 254, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(0, 242, 254, 0.15)';
       ctx.beginPath();
       ctx.moveTo(0, height / 2);
       ctx.lineTo(width, height / 2);
