@@ -285,6 +285,60 @@
       color: var(--accent-808);
     }
 
+    /* ── 808 step note label ── */
+    .step-note {
+      position: absolute;
+      bottom: 2px;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 7px;
+      font-weight: 800;
+      color: var(--accent-808);
+      pointer-events: none;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+
+    /* ── Note picker popup ── */
+    #note-picker {
+      position: fixed;
+      z-index: 9998;
+      background: #0c0f1a;
+      border: 1px solid rgba(249,115,22,0.4);
+      border-radius: 8px;
+      padding: 6px;
+      display: none;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+
+    .note-btn {
+      background: rgba(249,115,22,0.08);
+      border: 1px solid rgba(249,115,22,0.2);
+      color: #94a3b8;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.1s;
+      min-width: 32px;
+      text-align: center;
+    }
+
+    .note-btn:hover {
+      background: rgba(249,115,22,0.25);
+      border-color: var(--accent-808);
+      color: var(--accent-808);
+    }
+
+    .note-btn.selected {
+      background: rgba(249,115,22,0.3);
+      border-color: var(--accent-808);
+      color: var(--accent-808);
+    }
+
     .ch-vol {
       -webkit-appearance: none;
       width: 34px;
@@ -904,6 +958,9 @@
 
 </div>
 
+<!-- 808 Note Picker -->
+<div id="note-picker"></div>
+
 <!-- Tutorial -->
 <div class="tut-overlay" id="tutorial-overlay">
   <div class="tut-box">
@@ -1202,53 +1259,129 @@ function playTomTabla(t){
   o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.12);
 }
 
+// ── 808 NOTE MAP ──
+const bass808NoteMap = [
+  {name:'C1', freq:32.70}, {name:'D1', freq:36.71}, {name:'E1', freq:41.20},
+  {name:'F1', freq:43.65}, {name:'G1', freq:49.00}, {name:'A1', freq:55.00},
+  {name:'B1', freq:61.74}, {name:'C2', freq:65.41}, {name:'D2', freq:73.42},
+  {name:'E2', freq:82.41}, {name:'F2', freq:87.31}, {name:'G2', freq:98.00},
+  {name:'A2', freq:110.0}, {name:'B2', freq:123.47},{name:'C3', freq:130.81},
+  {name:'D3', freq:146.83},{name:'E3', freq:164.81},{name:'G3', freq:196.00}
+];
+const bass808Notes = new Array(16).fill(null).map(()=>({...bass808NoteMap[7]})); // default C2
+
 // ── 808 BASS VARIANTS ──
-function play808(t){
+function play808(t, stepIdx){
+  const freq = (stepIdx !== undefined && bass808Notes[stepIdx]) ? bass808Notes[stepIdx].freq : bass808Notes[0].freq;
   const v = document.getElementById('sel-bass808').value;
-  if(v==='808_long')       play808Long(t);
-  else if(v==='808_tight')     play808Tight(t);
-  else if(v==='808_sub')       play808Sub(t);
-  else if(v==='808_distorted') play808Distorted(t);
-  else                         play808Classic(t);
+  if(v==='808_long')       play808Long(t, freq);
+  else if(v==='808_tight')     play808Tight(t, freq);
+  else if(v==='808_sub')       play808Sub(t, freq);
+  else if(v==='808_distorted') play808Distorted(t, freq);
+  else                         play808Classic(t, freq);
 }
-function play808Classic(t){
+function play808Classic(t, freq){
+  freq = freq||65.41;
   const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter(), c=getChGain('bass808',t);
-  o.type='sine'; o.frequency.setValueAtTime(55,t); o.frequency.exponentialRampToValueAtTime(40,t+0.05); o.frequency.setValueAtTime(40,t+0.05);
-  lp.type='lowpass'; lp.frequency.setValueAtTime(200,t);
+  o.type='sine'; o.frequency.setValueAtTime(freq*1.5,t); o.frequency.exponentialRampToValueAtTime(freq,t+0.05);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(freq*3.5,t);
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1.2,t+0.005); g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
   o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.75);
 }
-function play808Long(t){
+function play808Long(t, freq){
+  freq = freq||65.41;
   const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter(), c=getChGain('bass808',t);
-  o.type='sine'; o.frequency.setValueAtTime(55,t); o.frequency.exponentialRampToValueAtTime(38,t+0.08);
-  lp.type='lowpass'; lp.frequency.setValueAtTime(180,t);
+  o.type='sine'; o.frequency.setValueAtTime(freq*1.4,t); o.frequency.exponentialRampToValueAtTime(freq,t+0.08);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(freq*3,t);
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1.3,t+0.005); g.gain.exponentialRampToValueAtTime(0.001,t+1.4);
   o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+1.5);
 }
-function play808Tight(t){
+function play808Tight(t, freq){
+  freq = freq||65.41;
   const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter(), c=getChGain('bass808',t);
-  o.type='sine'; o.frequency.setValueAtTime(60,t); o.frequency.exponentialRampToValueAtTime(45,t+0.03);
-  lp.type='lowpass'; lp.frequency.setValueAtTime(220,t);
+  o.type='sine'; o.frequency.setValueAtTime(freq*1.3,t); o.frequency.exponentialRampToValueAtTime(freq,t+0.03);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(freq*4,t);
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1.1,t+0.003); g.gain.exponentialRampToValueAtTime(0.001,t+0.25);
   o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.28);
 }
-function play808Sub(t){
+function play808Sub(t, freq){
+  freq = freq||65.41;
   const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter(), c=getChGain('bass808',t);
-  o.type='sine'; o.frequency.setValueAtTime(40,t);
-  lp.type='lowpass'; lp.frequency.setValueAtTime(100,t);
+  o.type='sine'; o.frequency.setValueAtTime(freq,t);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(freq*2,t);
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(1.5,t+0.008); g.gain.exponentialRampToValueAtTime(0.001,t+1.0);
   o.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+1.1);
 }
-function play808Distorted(t){
+function play808Distorted(t, freq){
+  freq = freq||65.41;
   const o=audioCtx.createOscillator(), g=audioCtx.createGain(), lp=audioCtx.createBiquadFilter();
   const dist=audioCtx.createWaveShaper(), c=getChGain('bass808',t);
   const curve=new Float32Array(512);
   for(let i=0;i<512;i++){ const x=i*2/512-1; curve[i]=Math.tanh(x*5); }
   dist.curve=curve;
-  o.type='sawtooth'; o.frequency.setValueAtTime(55,t); o.frequency.exponentialRampToValueAtTime(38,t+0.06);
-  lp.type='lowpass'; lp.frequency.setValueAtTime(400,t);
+  o.type='sawtooth'; o.frequency.setValueAtTime(freq*1.4,t); o.frequency.exponentialRampToValueAtTime(freq,t+0.06);
+  lp.type='lowpass'; lp.frequency.setValueAtTime(freq*6,t);
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.5,t+0.005); g.gain.exponentialRampToValueAtTime(0.001,t+0.6);
   o.connect(dist); dist.connect(lp); lp.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.65);
+}
+
+// ── 808 NOTE PICKER ──
+const notePicker = document.getElementById('note-picker');
+let notePickerStep = null;
+
+// Build picker buttons
+bass808NoteMap.forEach(n=>{
+  const b=document.createElement('button');
+  b.className='note-btn'; b.textContent=n.name; b.dataset.freq=n.freq; b.dataset.name=n.name;
+  b.addEventListener('click', e=>{
+    e.stopPropagation();
+    if(notePickerStep===null) return;
+    bass808Notes[notePickerStep] = {name:n.name, freq:n.freq};
+    update808StepLabel(notePickerStep);
+    closeNotePicker();
+    // preview note
+    if(audioCtx){ if(audioCtx.state==='suspended') audioCtx.resume(); play808(audioCtx.currentTime, notePickerStep); }
+  });
+  notePicker.appendChild(b);
+});
+
+function openNotePicker(stepIdx, anchorEl){
+  notePickerStep = stepIdx;
+  const rect = anchorEl.getBoundingClientRect();
+  notePicker.style.display = 'grid';
+  let top = rect.bottom + 4;
+  let left = rect.left;
+  if(left + 180 > window.innerWidth) left = window.innerWidth - 186;
+  if(top + 160 > window.innerHeight) top = rect.top - 164;
+  notePicker.style.top = top + 'px';
+  notePicker.style.left = left + 'px';
+  // mark selected
+  notePicker.querySelectorAll('.note-btn').forEach(b=>{
+    b.classList.toggle('selected', b.dataset.name === bass808Notes[stepIdx].name);
+  });
+}
+
+function closeNotePicker(){
+  notePicker.style.display = 'none';
+  notePickerStep = null;
+}
+
+document.addEventListener('click', e=>{
+  if(!notePicker.contains(e.target)) closeNotePicker();
+});
+
+function update808StepLabel(idx){
+  const row = document.querySelector('.seq-row[data-inst="bass808"]');
+  if(!row) return;
+  const btn = row.querySelector(`[data-step="${idx}"]`);
+  if(!btn) return;
+  let lbl = btn.querySelector('.step-note');
+  if(!lbl){ lbl=document.createElement('span'); lbl.className='step-note'; btn.appendChild(lbl); }
+  lbl.textContent = btn.classList.contains('active') ? bass808Notes[idx].name : '';
+}
+
+function initAll808Labels(){
+  for(let i=0;i<16;i++) update808StepLabel(i);
 }
 
 // ── SYNTH FX VARIANTS ──
@@ -1302,11 +1435,12 @@ function playSynthNote(freq){
   if(currentTutStep===4) completeTutorialStep();
 }
 
-function triggerPlay(inst){
+function triggerPlay(inst, stepIdx){
   if(!audioCtx) initAudio();
   if(audioCtx.state==='suspended') audioCtx.resume();
   const t=audioCtx.currentTime;
-  ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,bass808:play808,fx:playFX})[inst](t);
+  if(inst==='bass808'){ play808(t, stepIdx!==undefined ? stepIdx : 0); return; }
+  ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,fx:playFX})[inst](t);
 }
 
 // ── Sequencer ──
@@ -1317,7 +1451,10 @@ function nextStepFn(){ nextNoteTime += (60/tempo)/4; currentStep = (currentStep+
 function scheduleNote(step,time){
   document.querySelectorAll('.seq-row').forEach(r=>{
     const inst=r.dataset.inst, btn=r.querySelector(`[data-step="${step}"]`);
-    if(btn&&btn.classList.contains('active')) ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,bass808:play808,fx:playFX})[inst](time);
+    if(btn&&btn.classList.contains('active')){
+      if(inst==='bass808') play808(time, step);
+      else ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,fx:playFX})[inst](time);
+    }
   });
   setTimeout(()=>{
     document.querySelectorAll('.step').forEach(b=>b.classList.remove('current'));
@@ -1348,13 +1485,31 @@ document.getElementById('play-btn').addEventListener('click',()=>{ isPlaying ? s
 document.getElementById('tempo').addEventListener('input',e=>{ tempo=parseInt(e.target.value); document.getElementById('bpm-val').innerText=tempo; });
 
 document.querySelectorAll('.step').forEach(btn=>{
-  btn.addEventListener('click',()=>{
+  const row = btn.closest('.seq-row');
+  const inst = row ? row.dataset.inst : null;
+  const stepIdx = parseInt(btn.dataset.step);
+
+  btn.addEventListener('click', e=>{
+    if(inst==='bass808' && btn.classList.contains('active')){
+      // second click on active 808 step opens note picker
+      openNotePicker(stepIdx, btn);
+      return;
+    }
     btn.classList.toggle('active');
-    if(btn.classList.contains('active')) triggerPlay(btn.closest('.seq-row').dataset.inst);
+    if(inst==='bass808') update808StepLabel(stepIdx);
+    if(btn.classList.contains('active')) triggerPlay(inst, stepIdx);
     if(currentTutStep===2){
       const n=document.querySelectorAll('.step.active').length;
       if(n>=3) completeTutorialStep();
       else document.getElementById('tut-badge').innerText=`${n} / 3 selected`;
+    }
+  });
+
+  btn.addEventListener('contextmenu', e=>{
+    if(inst==='bass808'){
+      e.preventDefault();
+      if(!btn.classList.contains('active')){ btn.classList.add('active'); update808StepLabel(stepIdx); }
+      openNotePicker(stepIdx, btn);
     }
   });
 });
@@ -1444,7 +1599,7 @@ function closeTut(){
   overlay.style.display='none'; localStorage.setItem('tutDone','1');
 }
 
-window.addEventListener('load',()=>setTimeout(()=>startTutorial(false),800));
+window.addEventListener('load',()=>{ initAll808Labels(); setTimeout(()=>startTutorial(false),800); });
 </script>
 </body>
 </html>
