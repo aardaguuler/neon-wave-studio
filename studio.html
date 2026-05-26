@@ -3,1536 +3,1018 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neon Wave Studio Pro</title>
-  <!-- Google Fonts: Inter ve Outfit -->
+  <title>Neon Wave Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-dark: #05070f;
-      --panel-bg: rgba(10, 12, 28, 0.7);
-      --panel-border: rgba(0, 242, 254, 0.12);
-      --neon-blue: #00f2fe;
-      --neon-pink: #f355da;
-      --neon-purple: #7000ff;
-      --neon-green: #39ff14;
-      --text-main: #f8fafc;
-      --text-muted: #64748b;
-      --text-active: #00f2fe;
+      --bg: #06080e;
+      --surface: rgba(255, 255, 255, 0.025);
+      --surface-hover: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-focus: rgba(255, 255, 255, 0.15);
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.25);
+      --accent-alt: #8b5cf6;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --text: #e2e8f0;
+      --text-dim: #64748b;
+      --text-faint: #334155;
+      --step-active-bg: rgba(59, 130, 246, 0.2);
+      --step-active-border: rgba(59, 130, 246, 0.5);
+      --playhead: #f59e0b;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-main);
-      overflow-x: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       padding: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .studio-container {
+    .studio {
       width: 100%;
-      max-width: 1100px;
-      background: var(--panel-bg);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid var(--panel-border);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
-                  0 0 50px rgba(112, 0, 255, 0.04);
+      max-width: 1080px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      position: relative;
+      gap: 12px;
     }
 
-    /* Üst Kontrol Paneli */
-    .header-panel {
+    /* ── Header ── */
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding-bottom: 14px;
-      transition: all 0.3s ease;
-    }
-
-    .brand-section h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 24px;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .brand-section p {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
-
-    .global-controls {
-      display: flex;
-      align-items: center;
       gap: 12px;
-      flex-wrap: wrap;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .btn-main {
-      font-family: 'Outfit', sans-serif;
-      background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-      color: white;
-      border: none;
-      padding: 10px 20px;
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
       font-size: 13px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      font-size: 15px;
       font-weight: 700;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 15px rgba(243, 85, 218, 0.25);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: var(--text);
+      letter-spacing: -0.3px;
     }
 
-    .btn-main:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 25px rgba(243, 85, 218, 0.4);
+    .header-sub {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 500;
     }
 
-    .btn-main.playing {
-      background: linear-gradient(135deg, #00b4db, #00f2fe);
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
-    }
-
-    /* Tur Rehberi Başlatıcı Buton */
-    .btn-help {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--neon-blue);
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .btn-help:hover {
-      background: rgba(0, 242, 254, 0.1);
-      border-color: var(--neon-blue);
-      box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-    }
-
-    .tempo-slider-container {
+    .header-controls {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 8px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      flex-wrap: wrap;
     }
 
-    .tempo-slider-container label {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-muted);
+    .btn-help {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-help:hover {
+      color: var(--text);
+      border-color: var(--border-focus);
+      background: var(--surface);
+    }
+
+    .tempo-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .tempo-control label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
     }
 
     .tempo-slider {
       -webkit-appearance: none;
-      width: 100px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.08);
+      width: 80px;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
       border-radius: 2px;
       outline: none;
     }
 
     .tempo-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background: var(--neon-blue);
+      background: var(--accent);
       cursor: pointer;
-      box-shadow: 0 0 6px var(--neon-blue);
-      transition: all 0.15s;
     }
 
-    .bpm-display {
-      font-family: 'Outfit', sans-serif;
-      font-size: 13px;
+    .bpm-val {
+      font-size: 12px;
       font-weight: 700;
-      color: var(--neon-blue);
-      width: 32px;
+      color: var(--accent);
+      min-width: 26px;
       text-align: right;
+      font-variant-numeric: tabular-nums;
     }
 
-    /* Görselleştirici Canvas */
-    .visualizer-card {
-      width: 100%;
-      height: 60px;
-      background: rgba(3, 5, 12, 0.8);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    #visualizer {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    /* Ritim Adımlayıcı Bölümü */
-    .section-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
+    .btn-play {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 7px 18px;
+      font-size: 12px;
       font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
       display: flex;
       align-items: center;
-      gap: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      gap: 5px;
     }
 
-    .section-title span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--neon-pink);
-      display: inline-block;
-      box-shadow: 0 0 6px var(--neon-pink);
+    .btn-play:hover {
+      filter: brightness(1.15);
     }
 
-    .sequencer-grid {
+    .btn-play.playing {
+      background: var(--danger);
+    }
+
+    .btn-play svg { width: 12px; height: 12px; }
+
+    /* ── Visualizer ── */
+    .viz-wrap {
+      width: 100%;
+      height: 48px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    #visualizer { width: 100%; height: 100%; display: block; }
+
+    /* ── Sequencer ── */
+    .seq-section {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.01);
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      transition: all 0.3s ease;
+      gap: 4px;
     }
 
-    .sequencer-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* Kanal Bilgi / Mikser Alanı (Satır Başı) */
-    .channel-mixer {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      width: 200px;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 4px 8px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.02);
-    }
-
-    .instrument-label {
-      flex-grow: 1;
-      font-size: 11px;
+    .seq-label {
+      font-size: 10px;
       font-weight: 700;
-      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-faint);
+      padding-left: 2px;
+    }
+
+    .seq-grid {
+      background: var(--surface);
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .seq-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ch-info {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 170px;
+      flex-shrink: 0;
+    }
+
+    .ch-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
       cursor: pointer;
+      width: 72px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
-      transition: all 0.2s;
+      transition: color 0.15s;
     }
 
-    .instrument-label:hover {
-      color: var(--text-main);
-    }
+    .ch-name:hover { color: var(--text); }
 
-    /* Kanal Volume Slider */
-    .vol-slider {
+    .ch-vol {
       -webkit-appearance: none;
-      width: 50px;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
+      width: 44px;
+      height: 2px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 1px;
       outline: none;
     }
 
-    .vol-slider::-webkit-slider-thumb {
+    .ch-vol::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      background: var(--neon-blue);
+      background: var(--text-dim);
       cursor: pointer;
     }
 
-    /* Mute Butonu */
-    .mute-btn {
+    .ch-mute {
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
+      border: 1px solid var(--border);
+      color: var(--text-faint);
       font-size: 9px;
       font-weight: 800;
-      width: 20px;
-      height: 20px;
-      border-radius: 4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
+      transition: all 0.15s;
     }
 
-    .mute-btn:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-main);
+    .ch-mute:hover { color: var(--text-dim); border-color: var(--border-focus); }
+
+    .ch-mute.muted {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: var(--danger);
+      color: var(--danger);
     }
 
-    .mute-btn.muted {
-      background: rgba(243, 85, 218, 0.15);
-      border-color: var(--neon-pink);
-      color: var(--neon-pink);
-    }
-
-    /* 16 Adımlı Izgara */
-    .step-buttons {
+    .steps {
       display: grid;
       grid-template-columns: repeat(16, 1fr);
-      gap: 4px;
+      gap: 3px;
       flex-grow: 1;
     }
 
-    .step-btn {
-      aspect-ratio: 1.1;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      border-radius: 5px;
+    .step {
+      aspect-ratio: 1.2;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 4px;
       cursor: pointer;
-      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.12s;
       position: relative;
     }
 
-    .step-buttons .step-btn:nth-child(4n+1) {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.06);
+    /* Beat grouping: subtle brightness on downbeats */
+    .steps .step:nth-child(4n+1) {
+      background: rgba(255,255,255,0.045);
     }
 
-    .step-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
+    .step:hover { background: rgba(255,255,255,0.06); }
+
+    .step.active {
+      background: var(--step-active-bg);
+      border-color: var(--step-active-border);
     }
 
-    .step-btn.active {
-      background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(0, 242, 254, 0.45));
-      border-color: var(--neon-blue);
-      box-shadow: 0 0 8px rgba(0, 242, 254, 0.25);
+    .step.current {
+      border-color: var(--playhead);
+      box-shadow: inset 0 0 0 1px var(--playhead);
     }
 
-    .step-btn.active::after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      right: 3px;
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: var(--neon-blue);
-      box-shadow: 0 0 4px var(--neon-blue);
-    }
-
-    .step-btn.current {
-      border-color: var(--neon-pink);
-      transform: scale(1.08);
-      box-shadow: 0 0 10px rgba(243, 85, 218, 0.35);
-      z-index: 2;
-    }
-
-    /* Piyano ve Efekt Paneli (Çift Sütun Düzeni) */
-    .synth-panel {
+    /* ── Synth Panel ── */
+    .synth-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .panel-card {
-      background: rgba(255, 255, 255, 0.01);
-      padding: 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      display: flex;
-      flex-direction: column;
       gap: 12px;
     }
 
-    .piano-keys {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      gap: 4px;
-      height: 110px;
+    .card {
+      background: var(--surface);
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .piano-key {
-      background: linear-gradient(to bottom, #ffffff 75%, #cbd5e1 100%);
-      color: #0f172a;
+    .card-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-faint);
+    }
+
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 3px;
+      height: 100px;
+    }
+
+    .key {
+      background: linear-gradient(to bottom, #f8fafc 70%, #cbd5e1);
+      color: #1e293b;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       align-items: center;
-      padding-bottom: 8px;
-      transition: all 0.1s ease-out;
-      box-shadow: 0 4px 0 #94a3b8, 0 6px 10px rgba(0,0,0,0.15);
+      padding-bottom: 7px;
+      transition: all 0.08s ease-out;
+      box-shadow: 0 3px 0 #94a3b8, 0 4px 8px rgba(0,0,0,0.12);
       position: relative;
     }
 
-    .piano-key:hover {
-      background: linear-gradient(to bottom, #f8fafc 75%, #94a3b8 100%);
+    .key::before {
+      content: attr(data-letter);
+      position: absolute;
+      top: 5px;
+      font-size: 8px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.04);
+      padding: 1px 4px;
+      border-radius: 2px;
     }
 
-    .piano-key:active, .piano-key.active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #64748b, 0 2px 4px rgba(0,0,0,0.15);
-      background: linear-gradient(to bottom, var(--neon-blue) 0%, #00d2de 100%);
+    .key:hover { background: linear-gradient(to bottom, #f1f5f9 70%, #94a3b8); }
+
+    .key:active, .key.active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #64748b;
+      background: linear-gradient(to bottom, var(--accent), #2563eb);
       color: white;
     }
 
-    .piano-key::before {
-      content: attr(data-letter);
-      position: absolute;
-      top: 6px;
-      font-size: 9px;
-      font-weight: 800;
-      color: rgba(0, 0, 0, 0.35);
-      background: rgba(0,0,0,0.05);
-      padding: 1px 4px;
-      border-radius: 3px;
+    .key:active::before, .key.active::before {
+      color: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.12);
     }
 
-    .piano-key:active::before, .piano-key.active::before {
-      color: rgba(255, 255, 255, 0.7);
-      background: rgba(255,255,255,0.15);
-    }
-
-    /* Efekt Parametreleri Izgarası */
-    .controls-grid {
+    /* ── FX Controls ── */
+    .fx-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .control-item {
+    .fx-item {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 6px 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.02);
+      gap: 3px;
+      background: rgba(255,255,255,0.015);
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.02);
     }
 
-    .control-item label {
-      font-size: 10px;
+    .fx-item label {
+      font-size: 9px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: var(--text-faint);
       text-transform: uppercase;
+      letter-spacing: 0.3px;
       display: flex;
       justify-content: space-between;
     }
 
-    .control-item label span {
-      color: var(--neon-blue);
-    }
+    .fx-item label span { color: var(--text-dim); font-variant-numeric: tabular-nums; }
 
-    .control-input {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--text-main);
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 11px;
+    .fx-select {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 10px;
       font-weight: 600;
       outline: none;
     }
 
-    .control-slider {
+    .fx-slider {
       -webkit-appearance: none;
       width: 100%;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 2px;
+      height: 2px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 1px;
       outline: none;
-      margin: 4px 0;
+      margin: 3px 0;
     }
 
-    .control-slider::-webkit-slider-thumb {
+    .fx-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: var(--neon-pink);
+      background: var(--accent-alt);
       cursor: pointer;
     }
 
-    /* --- ETKİLEŞİMLİ TUTORIAL (REHBER) CSS --- */
-    .tutorial-overlay {
+    /* ── Tutorial Overlay ── */
+    .tut-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(3px);
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(2px);
       z-index: 9999;
       display: none;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      pointer-events: none;
     }
 
-    .tutorial-box {
-      background: rgba(13, 17, 39, 0.95);
-      border: 2px solid var(--neon-blue);
-      border-radius: 16px;
-      padding: 24px;
-      max-width: 420px;
+    .tut-box {
+      background: #0c0f1a;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 18px 20px;
+      max-width: 400px;
       width: 90%;
-      box-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
       text-align: center;
-      animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: auto;
+      position: absolute;
+      bottom: 20px;
+      animation: slideUp 0.25s ease-out;
     }
 
-    @keyframes popIn {
-      0% { transform: scale(0.85); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes slideUp {
+      0% { transform: translateY(16px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
 
-    .tutorial-box h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--neon-blue);
+    .tut-box h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.2px;
     }
 
-    .tutorial-box p {
-      font-size: 13px;
-      color: var(--text-main);
-      line-height: 1.6;
-    }
-
-    .tutorial-box .tutorial-desc {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      padding: 12px;
-      border-radius: 8px;
+    .tut-box p {
       font-size: 12px;
       color: #94a3b8;
+      line-height: 1.55;
     }
 
-    .tutorial-buttons {
+    .tut-badge {
+      display: inline-block;
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.25);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 2px auto;
+    }
+
+    .tut-badge.done {
+      background: rgba(34,197,94,0.1);
+      border-color: rgba(34,197,94,0.25);
+      color: var(--success);
+    }
+
+    .tut-hint {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .tut-btns {
       display: flex;
       justify-content: space-between;
-      gap: 10px;
-      margin-top: 6px;
+      gap: 8px;
+      margin-top: 2px;
     }
 
-    .btn-tut-skip {
+    .tut-skip {
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--text-muted);
-      padding: 8px 16px;
-      font-size: 12px;
-      font-weight: 700;
-      border-radius: 8px;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
     }
 
-    .btn-tut-skip:hover {
-      color: var(--text-main);
-      border-color: var(--text-main);
-    }
+    .tut-skip:hover { color: var(--text); border-color: var(--border-focus); }
 
-    .btn-tut-next {
-      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    .tut-next {
+      background: var(--accent);
       color: white;
       border: none;
-      padding: 8px 20px;
-      font-size: 12px;
+      padding: 6px 16px;
+      font-size: 11px;
       font-weight: 700;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
       flex-grow: 1;
-      transition: all 0.2s;
+      transition: all 0.15s;
     }
 
-    .btn-tut-next:hover {
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-    }
+    .tut-next:hover { filter: brightness(1.1); }
+    .tut-next:disabled { background: #1e293b; color: #475569; cursor: not-allowed; }
 
-    /* Tutorial Odak Sınıfı (Önemli Parçaları Parlatma) */
-    .tutorial-focus {
+    .tut-highlight {
       position: relative;
       z-index: 10000 !important;
-      box-shadow: 0 0 40px rgba(0, 242, 254, 0.6) !important;
-      border-color: var(--neon-blue) !important;
-      background: rgba(13, 17, 39, 0.95) !important;
+      box-shadow: 0 0 0 2px var(--accent), 0 0 16px var(--accent-glow) !important;
+      pointer-events: auto !important;
     }
 
-    /* Mobil Uyum */
     @media (max-width: 800px) {
-      .synth-panel {
-        grid-template-columns: 1fr;
-      }
-      .channel-mixer {
-        width: 130px;
-      }
-      .vol-slider {
-        display: none;
-      }
+      .synth-row { grid-template-columns: 1fr; }
+      .ch-info { width: 110px; }
+      .ch-vol { display: none; }
+      .key::before { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="studio-container" id="studio-main">
-    
-    <!-- Üst Kontrol Paneli -->
-    <div class="header-panel" id="tut-header">
-      <div class="brand-section">
-        <h1><span>⚡</span> NEON WAVE STUDIO PRO</h1>
-        <p>16-Step Davul Sequencer & Delay Efektli Melodi Sentezleyici</p>
-      </div>
-      
-      <div class="global-controls">
-        <button class="btn-help" onclick="startTutorial(true)">
-          ❓ Rehber Turunu Başlat
-        </button>
-        <div class="tempo-slider-container">
-          <label for="tempo">BPM</label>
-          <input type="range" id="tempo" class="tempo-slider" min="60" max="180" value="120">
-          <span class="bpm-display" id="bpm-val">120</span>
-        </div>
-        <button class="btn-main" id="play-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          Döngüyü Başlat
-        </button>
+<div class="studio">
+
+  <!-- Header -->
+  <div class="header" id="tut-header">
+    <div class="header-left">
+      <div class="logo">N</div>
+      <div>
+        <div class="header-title">Neon Wave Studio</div>
+        <div class="header-sub">16-Step Sequencer &middot; Synth &middot; Delay FX</div>
       </div>
     </div>
-
-    <!-- Canlı Ses Dalga Analizcisi -->
-    <div class="visualizer-card" id="tut-visualizer">
-      <canvas id="visualizer"></canvas>
+    <div class="header-controls">
+      <button class="btn-help" onclick="startTutorial(true)">Guide</button>
+      <div class="tempo-control">
+        <label for="tempo">BPM</label>
+        <input type="range" id="tempo" class="tempo-slider" min="60" max="180" value="120">
+        <span class="bpm-val" id="bpm-val">120</span>
+      </div>
+      <button class="btn-play" id="play-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Play
+      </button>
     </div>
-
-    <!-- Ritim Adımlayıcı (16 Adım Sequencer) -->
-    <div id="tut-sequencer">
-      <div class="section-title">
-        <span></span> 16-Step Ritim Dizici (Drum Sequencer)
-      </div>
-      <div class="sequencer-grid">
-        
-        <!-- Kick -->
-        <div class="sequencer-row" data-inst="kick">
-          <div class="channel-mixer">
-            <div class="instrument-label" onclick="triggerPlay('kick')">🔊 Kick (Bas)</div>
-            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.8" oninput="changeChannelVol('kick', this.value)">
-            <button class="mute-btn" onclick="toggleMute('kick', this)">M</button>
-          </div>
-          <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
-            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
-            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
-            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
-            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
-          </div>
-        </div>
-
-        <!-- Snare -->
-        <div class="sequencer-row" data-inst="snare">
-          <div class="channel-mixer">
-            <div class="instrument-label" onclick="triggerPlay('snare')">🥁 Snare (Trampet)</div>
-            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.7" oninput="changeChannelVol('snare', this.value)">
-            <button class="mute-btn" onclick="toggleMute('snare', this)">M</button>
-          </div>
-          <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
-            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
-            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
-            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
-            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
-          </div>
-        </div>
-
-        <!-- HiHat -->
-        <div class="sequencer-row" data-inst="hihat">
-          <div class="channel-mixer">
-            <div class="instrument-label" onclick="triggerPlay('hihat')">✨ Hi-Hat (Zil)</div>
-            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.5" oninput="changeChannelVol('hihat', this.value)">
-            <button class="mute-btn" onclick="toggleMute('hihat', this)">M</button>
-          </div>
-          <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
-            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
-            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
-            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
-            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
-          </div>
-        </div>
-
-        <!-- Clap -->
-        <div class="sequencer-row" data-inst="clap">
-          <div class="channel-mixer">
-            <div class="instrument-label" onclick="triggerPlay('clap')">👏 Clap (Alkış)</div>
-            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.6" oninput="changeChannelVol('clap', this.value)">
-            <button class="mute-btn" onclick="toggleMute('clap', this)">M</button>
-          </div>
-          <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
-            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
-            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
-            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
-            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
-          </div>
-        </div>
-
-        <!-- Tom -->
-        <div class="sequencer-row" data-inst="tom">
-          <div class="channel-mixer">
-            <div class="instrument-label" onclick="triggerPlay('tom')">🍩 Tom (Orta Bas)</div>
-            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.7" oninput="changeChannelVol('tom', this.value)">
-            <button class="mute-btn" onclick="toggleMute('tom', this)">M</button>
-          </div>
-          <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
-            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
-            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
-            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
-            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
-          </div>
-        </div>
-
-        <!-- FX -->
-        <div class="sequencer-row" data-inst="fx">
-          <div class="channel-mixer">
-            <div class="instrument-label" onclick="triggerPlay('fx')">👽 Synth FX (Glitch)</div>
-            <input type="range" class="vol-slider" min="0" max="1" step="0.1" value="0.5" oninput="changeChannelVol('fx', this.value)">
-            <button class="mute-btn" onclick="toggleMute('fx', this)">M</button>
-          </div>
-          <div class="step-buttons">
-            <button class="step-btn" data-step="0"></button><button class="step-btn" data-step="1"></button>
-            <button class="step-btn" data-step="2"></button><button class="step-btn" data-step="3"></button>
-            <button class="step-btn" data-step="4"></button><button class="step-btn" data-step="5"></button>
-            <button class="step-btn" data-step="6"></button><button class="step-btn" data-step="7"></button>
-            <button class="step-btn" data-step="8"></button><button class="step-btn" data-step="9"></button>
-            <button class="step-btn" data-step="10"></button><button class="step-btn" data-step="11"></button>
-            <button class="step-btn" data-step="12"></button><button class="step-btn" data-step="13"></button>
-            <button class="step-btn" data-step="14"></button><button class="step-btn" data-step="15"></button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Piyano & Efekt Paneli (Alt Kısım Çift Sütun) -->
-    <div class="synth-panel" id="tut-synth">
-      
-      <!-- Sol Sütun: Piyano Klavyesi -->
-      <div class="panel-card" id="tut-piano">
-        <div class="section-title" style="margin-bottom:4px;">
-          <span style="background:var(--neon-blue); box-shadow: 0 0 6px var(--neon-blue)"></span> Mini Melodi Klavyesi
-        </div>
-        <div class="piano-keys">
-          <button class="piano-key" data-note="261.63" data-letter="A">C4</button>
-          <button class="piano-key" data-note="293.66" data-letter="S">D4</button>
-          <button class="piano-key" data-note="329.63" data-letter="D">E4</button>
-          <button class="piano-key" data-note="349.23" data-letter="F">F4</button>
-          <button class="piano-key" data-note="392.00" data-letter="G">G4</button>
-          <button class="piano-key" data-note="440.00" data-letter="H">A4</button>
-          <button class="piano-key" data-note="493.88" data-letter="J">B4</button>
-          <button class="piano-key" data-note="523.25" data-letter="K">C5</button>
-        </div>
-      </div>
-
-      <!-- Sağ Sütun: Synthesizer Kontrolleri & Delay FX -->
-      <div class="panel-card" id="tut-effects">
-        <div class="section-title" style="margin-bottom:4px;">
-          <span style="background:var(--neon-pink); box-shadow: 0 0 6px var(--neon-pink)"></span> Synth & Delay FX Ayarları
-        </div>
-        
-        <div class="controls-grid">
-          
-          <div class="control-item">
-            <label>Dalga Şekli</label>
-            <select id="waveform" class="control-input">
-              <option value="triangle" selected>Triangle (Klasik)</option>
-              <option value="sine">Sine (Yumuşak)</option>
-              <option value="sawtooth">Sawtooth (Keskin)</option>
-              <option value="square">Square (Retro)</option>
-            </select>
-          </div>
-
-          <div class="control-item">
-            <label>Ses Sönme (Decay) <span id="decay-val">0.6s</span></label>
-            <input type="range" id="synth-decay" class="control-slider" min="0.1" max="2.0" step="0.1" value="0.6" oninput="document.getElementById('decay-val').innerText = this.value + 's'">
-          </div>
-
-          <div class="control-item">
-            <label>Filtre Sıklığı <span id="cutoff-val">3000Hz</span></label>
-            <input type="range" id="filter" class="control-slider" min="200" max="8000" step="100" value="3000" oninput="document.getElementById('cutoff-val').innerText = this.value + 'Hz'">
-          </div>
-
-          <div class="control-item">
-            <label>Delay Yankı Gücü <span id="delay-feedback-val">30%</span></label>
-            <input type="range" id="delay-feedback" class="control-slider" min="0" max="0.8" step="0.05" value="0.3" oninput="updateDelayFeedback(this.value)">
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
   </div>
 
-  <!-- --- TUTORIAL REHBER OVERLAY --- -->
-  <div class="tutorial-overlay" id="tutorial-overlay">
-    <div class="tutorial-box">
-      <h2 id="tut-title">Hoş Geldiniz! ⚡</h2>
-      <p id="tut-text">Kendi ritmini ve melodini yapmak ister misin? Senin için hazırladığım 1 dakikalık süper basit rehbere göz at!</p>
-      <div class="tutorial-desc" id="tut-desc">Hiçbir tecrübeye gerek yok. Sadece tıklayarak harika müzikler yapacaksın!</div>
-      <div class="tutorial-buttons">
-        <button class="btn-tut-skip" id="tut-btn-skip">Atla / Kapat</button>
-        <button class="btn-tut-next" id="tut-btn-next">Tur Yapalım! 🚀</button>
+  <!-- Visualizer -->
+  <div class="viz-wrap">
+    <canvas id="visualizer"></canvas>
+  </div>
+
+  <!-- Sequencer -->
+  <div class="seq-section" id="tut-sequencer">
+    <div class="seq-label">Drum Sequencer</div>
+    <div class="seq-grid">
+
+      <div class="seq-row" data-inst="kick">
+        <div class="ch-info" id="tut-mixer-kick">
+          <div class="ch-name" onclick="triggerPlay('kick')">Kick</div>
+          <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.8" oninput="changeChannelVol('kick',this.value)">
+          <button class="ch-mute" onclick="toggleMute('kick',this)">M</button>
+        </div>
+        <div class="steps">
+          <button class="step" data-step="0"></button><button class="step" data-step="1"></button>
+          <button class="step" data-step="2"></button><button class="step" data-step="3"></button>
+          <button class="step" data-step="4"></button><button class="step" data-step="5"></button>
+          <button class="step" data-step="6"></button><button class="step" data-step="7"></button>
+          <button class="step" data-step="8"></button><button class="step" data-step="9"></button>
+          <button class="step" data-step="10"></button><button class="step" data-step="11"></button>
+          <button class="step" data-step="12"></button><button class="step" data-step="13"></button>
+          <button class="step" data-step="14"></button><button class="step" data-step="15"></button>
+        </div>
+      </div>
+
+      <div class="seq-row" data-inst="snare">
+        <div class="ch-info">
+          <div class="ch-name" onclick="triggerPlay('snare')">Snare</div>
+          <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.7" oninput="changeChannelVol('snare',this.value)">
+          <button class="ch-mute" onclick="toggleMute('snare',this)">M</button>
+        </div>
+        <div class="steps">
+          <button class="step" data-step="0"></button><button class="step" data-step="1"></button>
+          <button class="step" data-step="2"></button><button class="step" data-step="3"></button>
+          <button class="step" data-step="4"></button><button class="step" data-step="5"></button>
+          <button class="step" data-step="6"></button><button class="step" data-step="7"></button>
+          <button class="step" data-step="8"></button><button class="step" data-step="9"></button>
+          <button class="step" data-step="10"></button><button class="step" data-step="11"></button>
+          <button class="step" data-step="12"></button><button class="step" data-step="13"></button>
+          <button class="step" data-step="14"></button><button class="step" data-step="15"></button>
+        </div>
+      </div>
+
+      <div class="seq-row" data-inst="hihat">
+        <div class="ch-info">
+          <div class="ch-name" onclick="triggerPlay('hihat')">Hi-Hat</div>
+          <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.5" oninput="changeChannelVol('hihat',this.value)">
+          <button class="ch-mute" onclick="toggleMute('hihat',this)">M</button>
+        </div>
+        <div class="steps">
+          <button class="step" data-step="0"></button><button class="step" data-step="1"></button>
+          <button class="step" data-step="2"></button><button class="step" data-step="3"></button>
+          <button class="step" data-step="4"></button><button class="step" data-step="5"></button>
+          <button class="step" data-step="6"></button><button class="step" data-step="7"></button>
+          <button class="step" data-step="8"></button><button class="step" data-step="9"></button>
+          <button class="step" data-step="10"></button><button class="step" data-step="11"></button>
+          <button class="step" data-step="12"></button><button class="step" data-step="13"></button>
+          <button class="step" data-step="14"></button><button class="step" data-step="15"></button>
+        </div>
+      </div>
+
+      <div class="seq-row" data-inst="clap">
+        <div class="ch-info">
+          <div class="ch-name" onclick="triggerPlay('clap')">Clap</div>
+          <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.6" oninput="changeChannelVol('clap',this.value)">
+          <button class="ch-mute" onclick="toggleMute('clap',this)">M</button>
+        </div>
+        <div class="steps">
+          <button class="step" data-step="0"></button><button class="step" data-step="1"></button>
+          <button class="step" data-step="2"></button><button class="step" data-step="3"></button>
+          <button class="step" data-step="4"></button><button class="step" data-step="5"></button>
+          <button class="step" data-step="6"></button><button class="step" data-step="7"></button>
+          <button class="step" data-step="8"></button><button class="step" data-step="9"></button>
+          <button class="step" data-step="10"></button><button class="step" data-step="11"></button>
+          <button class="step" data-step="12"></button><button class="step" data-step="13"></button>
+          <button class="step" data-step="14"></button><button class="step" data-step="15"></button>
+        </div>
+      </div>
+
+      <div class="seq-row" data-inst="tom">
+        <div class="ch-info">
+          <div class="ch-name" onclick="triggerPlay('tom')">Tom</div>
+          <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.7" oninput="changeChannelVol('tom',this.value)">
+          <button class="ch-mute" onclick="toggleMute('tom',this)">M</button>
+        </div>
+        <div class="steps">
+          <button class="step" data-step="0"></button><button class="step" data-step="1"></button>
+          <button class="step" data-step="2"></button><button class="step" data-step="3"></button>
+          <button class="step" data-step="4"></button><button class="step" data-step="5"></button>
+          <button class="step" data-step="6"></button><button class="step" data-step="7"></button>
+          <button class="step" data-step="8"></button><button class="step" data-step="9"></button>
+          <button class="step" data-step="10"></button><button class="step" data-step="11"></button>
+          <button class="step" data-step="12"></button><button class="step" data-step="13"></button>
+          <button class="step" data-step="14"></button><button class="step" data-step="15"></button>
+        </div>
+      </div>
+
+      <div class="seq-row" data-inst="fx">
+        <div class="ch-info">
+          <div class="ch-name" onclick="triggerPlay('fx')">Synth FX</div>
+          <input type="range" class="ch-vol" min="0" max="1" step="0.1" value="0.5" oninput="changeChannelVol('fx',this.value)">
+          <button class="ch-mute" onclick="toggleMute('fx',this)">M</button>
+        </div>
+        <div class="steps">
+          <button class="step" data-step="0"></button><button class="step" data-step="1"></button>
+          <button class="step" data-step="2"></button><button class="step" data-step="3"></button>
+          <button class="step" data-step="4"></button><button class="step" data-step="5"></button>
+          <button class="step" data-step="6"></button><button class="step" data-step="7"></button>
+          <button class="step" data-step="8"></button><button class="step" data-step="9"></button>
+          <button class="step" data-step="10"></button><button class="step" data-step="11"></button>
+          <button class="step" data-step="12"></button><button class="step" data-step="13"></button>
+          <button class="step" data-step="14"></button><button class="step" data-step="15"></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Synth + FX -->
+  <div class="synth-row" id="tut-synth">
+    <div class="card" id="tut-piano">
+      <div class="card-label">Keyboard</div>
+      <div class="keys">
+        <button class="key" data-note="261.63" data-letter="A">C4</button>
+        <button class="key" data-note="293.66" data-letter="S">D4</button>
+        <button class="key" data-note="329.63" data-letter="D">E4</button>
+        <button class="key" data-note="349.23" data-letter="F">F4</button>
+        <button class="key" data-note="392.00" data-letter="G">G4</button>
+        <button class="key" data-note="440.00" data-letter="H">A4</button>
+        <button class="key" data-note="493.88" data-letter="J">B4</button>
+        <button class="key" data-note="523.25" data-letter="K">C5</button>
+      </div>
+    </div>
+
+    <div class="card" id="tut-effects">
+      <div class="card-label">Synth &amp; FX</div>
+      <div class="fx-grid">
+        <div class="fx-item">
+          <label>Waveform</label>
+          <select id="waveform" class="fx-select">
+            <option value="triangle" selected>Triangle</option>
+            <option value="sine">Sine</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="square">Square</option>
+          </select>
+        </div>
+        <div class="fx-item">
+          <label>Decay <span id="decay-val">0.6s</span></label>
+          <input type="range" id="synth-decay" class="fx-slider" min="0.1" max="2.0" step="0.1" value="0.6" oninput="document.getElementById('decay-val').innerText=this.value+'s'">
+        </div>
+        <div class="fx-item">
+          <label>Cutoff <span id="cutoff-val">3000</span></label>
+          <input type="range" id="filter" class="fx-slider" min="200" max="8000" step="100" value="3000" oninput="document.getElementById('cutoff-val').innerText=this.value">
+        </div>
+        <div class="fx-item">
+          <label>Delay <span id="delay-feedback-val">30%</span></label>
+          <input type="range" id="delay-feedback" class="fx-slider" min="0" max="0.8" step="0.05" value="0.3" oninput="updateDelayFeedback(this.value)">
+        </div>
       </div>
     </div>
   </div>
 
-  <script>
-    // --- SES SENTEZLEME MOTORU (WEB AUDIO API) ---
-    let audioCtx = null;
-    let mainGainNode = null;
-    let analyserNode = null;
+</div>
 
-    // Delay (Yankı) Efekti Değişkenleri
-    let delayNode = null;
-    let delayFeedbackNode = null;
+<!-- Tutorial -->
+<div class="tut-overlay" id="tutorial-overlay">
+  <div class="tut-box">
+    <h3 id="tut-title"></h3>
+    <div class="tut-badge" id="tut-badge"></div>
+    <p id="tut-text"></p>
+    <div class="tut-hint" id="tut-desc"></div>
+    <div class="tut-btns">
+      <button class="tut-skip" id="tut-btn-skip">Skip</button>
+      <button class="tut-next" id="tut-btn-next" disabled>Next</button>
+    </div>
+  </div>
+</div>
 
-    // Her enstrüman kanalı için ayrı ses seviyesi (Volume) kontrolleri
-    const channelVolumes = {
-      kick: 0.8,
-      snare: 0.7,
-      hihat: 0.5,
-      clap: 0.6,
-      tom: 0.7,
-      fx: 0.5
-    };
+<script>
+// ── Audio Engine ──
+let audioCtx=null, mainGainNode=null, analyserNode=null, delayNode=null, delayFeedbackNode=null;
 
-    const channelMutes = {
-      kick: false,
-      snare: false,
-      hihat: false,
-      clap: false,
-      tom: false,
-      fx: false
-    };
+const channelVolumes = { kick:0.8, snare:0.7, hihat:0.5, clap:0.6, tom:0.7, fx:0.5 };
+const channelMutes = { kick:false, snare:false, hihat:false, clap:false, tom:false, fx:false };
 
-    function initAudio() {
-      if (audioCtx) return;
-      
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      audioCtx = new AudioContext();
-      
-      // Genel çıkış kontrolü
-      mainGainNode = audioCtx.createGain();
-      mainGainNode.gain.setValueAtTime(0.8, audioCtx.currentTime);
-      
-      // Dalga görselleştirici analiz düğümü
-      analyserNode = audioCtx.createAnalyser();
-      analyserNode.fftSize = 256;
-      
-      // DELAY (YANKI) EFECT NODU BAĞLANTILARI
-      delayNode = audioCtx.createDelay(2.0);
-      delayFeedbackNode = audioCtx.createGain();
-      
-      // Delay ayarları
-      delayNode.delayTime.setValueAtTime(0.35, audioCtx.currentTime); // 350ms delay
-      const initialFeedback = parseFloat(document.getElementById('delay-feedback').value);
-      delayFeedbackNode.gain.setValueAtTime(initialFeedback, audioCtx.currentTime);
-      
-      // Geri besleme loop'u (Feedback Loop)
-      delayNode.connect(delayFeedbackNode);
-      delayFeedbackNode.connect(delayNode);
-      
-      // Delay çıkışını ana ses kanalına bağlama
-      delayNode.connect(mainGainNode);
-      
-      // Ana bağlantılar
-      mainGainNode.connect(analyserNode);
-      analyserNode.connect(audioCtx.destination);
-      
-      startVisualizer();
+function initAudio(){
+  if(audioCtx) return;
+  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  mainGainNode = audioCtx.createGain();
+  mainGainNode.gain.setValueAtTime(0.8, audioCtx.currentTime);
+  analyserNode = audioCtx.createAnalyser();
+  analyserNode.fftSize = 256;
+  delayNode = audioCtx.createDelay(2.0);
+  delayFeedbackNode = audioCtx.createGain();
+  delayNode.delayTime.setValueAtTime(0.35, audioCtx.currentTime);
+  delayFeedbackNode.gain.setValueAtTime(parseFloat(document.getElementById('delay-feedback').value), audioCtx.currentTime);
+  delayNode.connect(delayFeedbackNode);
+  delayFeedbackNode.connect(delayNode);
+  delayNode.connect(mainGainNode);
+  mainGainNode.connect(analyserNode);
+  analyserNode.connect(audioCtx.destination);
+  startVisualizer();
+}
+
+function changeChannelVol(i,v){ channelVolumes[i]=parseFloat(v); if(currentTutStep===3) completeTutorialStep(); }
+function toggleMute(i,b){
+  channelMutes[i]=!channelMutes[i];
+  b.classList.toggle('muted', channelMutes[i]);
+  b.innerText = channelMutes[i] ? 'S' : 'M';
+  if(currentTutStep===3) completeTutorialStep();
+}
+function updateDelayFeedback(v){
+  document.getElementById('delay-feedback-val').innerText=Math.round(v*100)+'%';
+  if(delayFeedbackNode&&audioCtx) delayFeedbackNode.gain.setValueAtTime(parseFloat(v), audioCtx.currentTime);
+}
+
+function getChGain(inst,t){ const g=audioCtx.createGain(); g.gain.setValueAtTime(channelMutes[inst]?0:channelVolumes[inst],t); return g; }
+
+let noiseCache=null;
+function noiseBuf(){ if(noiseCache) return noiseCache; const s=audioCtx.sampleRate*0.5, b=audioCtx.createBuffer(1,s,audioCtx.sampleRate), d=b.getChannelData(0); for(let i=0;i<s;i++) d[i]=Math.random()*2-1; noiseCache=b; return b; }
+
+function playKick(t){ if(!audioCtx) initAudio(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(),c=getChGain('kick',t); o.connect(g); g.connect(c); c.connect(mainGainNode); o.type='sine'; o.frequency.setValueAtTime(140,t); o.frequency.exponentialRampToValueAtTime(0.01,t+0.28); g.gain.setValueAtTime(1,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28); o.start(t); o.stop(t+0.3); }
+
+function playSnare(t){ if(!audioCtx) initAudio(); const n=audioCtx.createBufferSource(); n.buffer=noiseBuf(); const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(1200,t); const g=audioCtx.createGain(); g.gain.setValueAtTime(0.6,t); g.gain.exponentialRampToValueAtTime(0.01,t+0.18); const c=getChGain('snare',t); n.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); const o=audioCtx.createOscillator(),og=audioCtx.createGain(); o.type='triangle'; o.frequency.setValueAtTime(170,t); o.frequency.exponentialRampToValueAtTime(0.01,t+0.08); og.gain.setValueAtTime(0.7,t); og.gain.exponentialRampToValueAtTime(0.01,t+0.08); o.connect(og); og.connect(c); n.start(t); n.stop(t+0.2); o.start(t); o.stop(t+0.1); }
+
+function playHihat(t){ if(!audioCtx) initAudio(); const s=audioCtx.createBufferSource(); s.buffer=noiseBuf(); const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.setValueAtTime(8000,t); const g=audioCtx.createGain(); g.gain.setValueAtTime(0.25,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.04); const c=getChGain('hihat',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); s.start(t); s.stop(t+0.05); }
+
+function playClap(t){ if(!audioCtx) initAudio(); const s=audioCtx.createBufferSource(); s.buffer=noiseBuf(); const f=audioCtx.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(1300,t); const g=audioCtx.createGain(); g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.01,t+0.02); g.gain.setValueAtTime(0.4,t+0.025); g.gain.exponentialRampToValueAtTime(0.01,t+0.045); g.gain.setValueAtTime(0.6,t+0.05); g.gain.exponentialRampToValueAtTime(0.001,t+0.16); const c=getChGain('clap',t); s.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); s.start(t); s.stop(t+0.2); }
+
+function playTom(t){ if(!audioCtx) initAudio(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(),c=getChGain('tom',t); o.type='sine'; o.frequency.setValueAtTime(110,t); o.frequency.exponentialRampToValueAtTime(45,t+0.22); g.gain.setValueAtTime(0.9,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.22); o.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.25); }
+
+function playFX(t){ if(!audioCtx) initAudio(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(),c=getChGain('fx',t),f=audioCtx.createBiquadFilter(); o.type='sawtooth'; o.frequency.setValueAtTime(800,t); o.frequency.exponentialRampToValueAtTime(80,t+0.12); f.type='bandpass'; f.frequency.setValueAtTime(600,t); f.Q.setValueAtTime(8,t); g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.12); o.connect(f); f.connect(g); g.connect(c); c.connect(mainGainNode); o.start(t); o.stop(t+0.15); }
+
+function playSynthNote(freq){
+  if(!audioCtx) initAudio();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain(), flt=audioCtx.createBiquadFilter();
+  const type=document.getElementById('waveform').value, cutoff=parseFloat(document.getElementById('filter').value), decay=parseFloat(document.getElementById('synth-decay').value);
+  o.type=type; o.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  flt.type='lowpass'; flt.frequency.setValueAtTime(cutoff, audioCtx.currentTime); flt.Q.setValueAtTime(2, audioCtx.currentTime);
+  flt.frequency.exponentialRampToValueAtTime(cutoff*0.3, audioCtx.currentTime+decay);
+  g.gain.setValueAtTime(0.4, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+decay);
+  o.connect(flt); flt.connect(g); g.connect(mainGainNode); g.connect(delayNode);
+  o.start(); o.stop(audioCtx.currentTime+decay+0.1);
+  if(currentTutStep===4) completeTutorialStep();
+}
+
+function triggerPlay(inst){
+  if(!audioCtx) initAudio();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  const t=audioCtx.currentTime;
+  ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,fx:playFX})[inst](t);
+}
+
+// ── Sequencer ──
+let isPlaying=false, currentStep=0, tempo=120, timerId=null, nextNoteTime=0;
+
+function nextStepFn(){ nextNoteTime += (60/tempo)/4; currentStep = (currentStep+1)%16; }
+
+function scheduleNote(step,time){
+  document.querySelectorAll('.seq-row').forEach(r=>{
+    const inst=r.dataset.inst, btn=r.querySelector(`[data-step="${step}"]`);
+    if(btn&&btn.classList.contains('active')) ({kick:playKick,snare:playSnare,hihat:playHihat,clap:playClap,tom:playTom,fx:playFX})[inst](time);
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('.step').forEach(b=>b.classList.remove('current'));
+    document.querySelectorAll(`[data-step="${step}"]`).forEach(b=>b.classList.add('current'));
+  }, (time-audioCtx.currentTime)*1000);
+}
+
+function scheduler(){ while(nextNoteTime<audioCtx.currentTime+0.1){ scheduleNote(currentStep,nextNoteTime); nextStepFn(); } timerId=setTimeout(scheduler,25); }
+
+function startSeq(){
+  initAudio(); if(audioCtx.state==='suspended') audioCtx.resume();
+  isPlaying=true; currentStep=0; nextNoteTime=audioCtx.currentTime+0.05;
+  document.getElementById('play-btn').innerHTML='<svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Stop';
+  document.getElementById('play-btn').classList.add('playing');
+  scheduler();
+  if(currentTutStep===1) completeTutorialStep();
+}
+
+function stopSeq(){
+  isPlaying=false; clearTimeout(timerId);
+  document.getElementById('play-btn').innerHTML='<svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M8 5v14l11-7z"/></svg> Play';
+  document.getElementById('play-btn').classList.remove('playing');
+  document.querySelectorAll('.step').forEach(b=>b.classList.remove('current'));
+}
+
+// ── Events ──
+document.getElementById('play-btn').addEventListener('click',()=>{ isPlaying ? stopSeq() : startSeq(); });
+document.getElementById('tempo').addEventListener('input',e=>{ tempo=parseInt(e.target.value); document.getElementById('bpm-val').innerText=tempo; });
+
+document.querySelectorAll('.step').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.classList.toggle('active');
+    if(btn.classList.contains('active')) triggerPlay(btn.closest('.seq-row').dataset.inst);
+    if(currentTutStep===2){
+      const n=document.querySelectorAll('.step.active').length;
+      if(n>=3) completeTutorialStep();
+      else document.getElementById('tut-badge').innerText=`${n} / 3 selected`;
     }
+  });
+});
 
-    // Mikser Fonksiyonları
-    function changeChannelVol(inst, val) {
-      channelVolumes[inst] = parseFloat(val);
-    }
+const pianoKeys=document.querySelectorAll('.key');
+pianoKeys.forEach(k=>{
+  k.addEventListener('mousedown',()=>{ playSynthNote(parseFloat(k.dataset.note)); k.classList.add('active'); });
+  k.addEventListener('mouseup',()=>k.classList.remove('active'));
+  k.addEventListener('mouseleave',()=>k.classList.remove('active'));
+  k.addEventListener('touchstart',e=>{ e.preventDefault(); playSynthNote(parseFloat(k.dataset.note)); k.classList.add('active'); });
+  k.addEventListener('touchend',()=>k.classList.remove('active'));
+});
 
-    function toggleMute(inst, btn) {
-      channelMutes[inst] = !channelMutes[inst];
-      if (channelMutes[inst]) {
-        btn.classList.add('muted');
-        btn.innerText = 'S';
-      } else {
-        btn.classList.remove('muted');
-        btn.innerText = 'M';
-      }
-    }
+const keyMap={a:0,s:1,d:2,f:3,g:4,h:5,j:6,k:7};
+window.addEventListener('keydown',e=>{
+  if(e.repeat) return;
+  const i=keyMap[e.key.toLowerCase()];
+  if(i!==undefined){ playSynthNote(parseFloat(pianoKeys[i].dataset.note)); pianoKeys[i].classList.add('active'); }
+});
+window.addEventListener('keyup',e=>{
+  const i=keyMap[e.key.toLowerCase()];
+  if(i!==undefined) pianoKeys[i].classList.remove('active');
+});
 
-    function updateDelayFeedback(val) {
-      const percentage = Math.round(val * 100) + '%';
-      document.getElementById('delay-feedback-val').innerText = percentage;
-      if (delayFeedbackNode && audioCtx) {
-        delayFeedbackNode.gain.setValueAtTime(parseFloat(val), audioCtx.currentTime);
-      }
-    }
+// ── Visualizer ──
+const canvas=document.getElementById('visualizer'), vctx=canvas.getContext('2d');
+function resizeCanvas(){ canvas.width=canvas.parentElement.clientWidth*devicePixelRatio; canvas.height=canvas.parentElement.clientHeight*devicePixelRatio; vctx.scale(devicePixelRatio,devicePixelRatio); }
+window.addEventListener('resize',resizeCanvas); resizeCanvas();
 
-    // --- ENSTRÜMAN SENTEZLEYİCİLERİ ---
+function startVisualizer(){
+  const buf=analyserNode.frequencyBinCount, data=new Uint8Array(buf);
+  (function draw(){
+    requestAnimationFrame(draw);
+    const w=canvas.width/devicePixelRatio, h=canvas.height/devicePixelRatio;
+    analyserNode.getByteTimeDomainData(data);
+    vctx.fillStyle='rgba(6,8,14,0.3)'; vctx.fillRect(0,0,w,h);
+    vctx.lineWidth=1.5; vctx.strokeStyle='rgba(59,130,246,0.5)';
+    vctx.beginPath();
+    const sl=w/buf; let x=0;
+    for(let i=0;i<buf;i++){ const y=(data[i]/128)*h/2; i===0?vctx.moveTo(x,y):vctx.lineTo(x,y); x+=sl; }
+    vctx.lineTo(w,h/2); vctx.stroke();
+  })();
+}
 
-    function getChannelGain(inst, time) {
-      const gainNode = audioCtx.createGain();
-      const finalVol = channelMutes[inst] ? 0.0 : channelVolumes[inst];
-      gainNode.gain.setValueAtTime(finalVol, time);
-      return gainNode;
-    }
+// static line
+(()=>{ const w=canvas.width/devicePixelRatio,h=canvas.height/devicePixelRatio; vctx.fillStyle='#06080e'; vctx.fillRect(0,0,w,h); vctx.strokeStyle='rgba(255,255,255,0.04)'; vctx.lineWidth=1; vctx.beginPath(); vctx.moveTo(0,h/2); vctx.lineTo(w,h/2); vctx.stroke(); })();
 
-    // 1. KICK
-    function playKick(time) {
-      if (!audioCtx) initAudio();
-      
-      const osc = audioCtx.createOscillator();
-      const channelGain = getChannelGain('kick', time);
-      const voiceGain = audioCtx.createGain();
-      
-      osc.connect(voiceGain);
-      voiceGain.connect(channelGain);
-      channelGain.connect(mainGainNode);
-      
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(140, time);
-      osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.28);
-      
-      voiceGain.gain.setValueAtTime(1.0, time);
-      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.28);
-      
-      osc.start(time);
-      osc.stop(time + 0.3);
-    }
+// ── Tutorial ──
+let currentTutStep=-1, isStepDone=false;
+const steps=[
+  { title:"Welcome to Neon Wave", text:"This quick guide walks you through the studio. Each step asks you to try something — learn by doing.", desc:"You can skip this anytime.", badge:"Get Started", focus:null, btn:"Let's go", req:false },
+  { title:"Step 1 — Start the beat", text:"Hit the <b>Play</b> button in the top-right corner to start the sequencer loop.", desc:"Press the Play button to continue.", badge:"Action required", focus:"#tut-header", btn:"Waiting for Play...", req:true },
+  { title:"Step 2 — Build a rhythm", text:"Click at least <b>3 squares</b> in the grid to activate them. Each lit square triggers its row's drum sound on that beat.", desc:"Select 3 or more squares in the grid.", badge:"0 / 3 selected", focus:"#tut-sequencer", btn:"Waiting...", req:true },
+  { title:"Step 3 — Use the mixer", text:"Each channel has a volume slider and a <b>Mute (M)</b> button. Try adjusting the Kick channel's volume or muting it.", desc:"Move a volume slider or press M to continue.", badge:"Action required", focus:"#tut-mixer-kick", btn:"Waiting...", req:true },
+  { title:"Step 4 — Play a note", text:"Click a piano key below, or press <b>A S D F G H J K</b> on your keyboard to play a synth note.", desc:"Play any note to finish the tour.", badge:"Action required", focus:"#tut-synth", btn:"Waiting...", req:true }
+];
 
-    // Gürültü Üretici (White Noise Buffer)
-    let noiseBufferCache = null;
-    function getNoiseBuffer() {
-      if (noiseBufferCache) return noiseBufferCache;
-      
-      const bufferSize = audioCtx.sampleRate * 0.5;
-      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
-      }
-      noiseBufferCache = buffer;
-      return buffer;
-    }
+const overlay=document.getElementById('tutorial-overlay'), tTitle=document.getElementById('tut-title'), tText=document.getElementById('tut-text'), tDesc=document.getElementById('tut-desc'), tBadge=document.getElementById('tut-badge'), tNext=document.getElementById('tut-btn-next'), tSkip=document.getElementById('tut-btn-skip');
 
-    // 2. SNARE
-    function playSnare(time) {
-      if (!audioCtx) initAudio();
-      
-      const noiseSource = audioCtx.createBufferSource();
-      noiseSource.buffer = getNoiseBuffer();
-      
-      const noiseFilter = audioCtx.createBiquadFilter();
-      noiseFilter.type = 'bandpass';
-      noiseFilter.frequency.setValueAtTime(1200, time);
-      
-      const voiceGain = audioCtx.createGain();
-      voiceGain.gain.setValueAtTime(0.6, time);
-      voiceGain.gain.exponentialRampToValueAtTime(0.01, time + 0.18);
-      
-      const channelGain = getChannelGain('snare', time);
-      
-      noiseSource.connect(noiseFilter);
-      noiseFilter.connect(voiceGain);
-      voiceGain.connect(channelGain);
-      channelGain.connect(mainGainNode);
-      
-      // Vuruş gövdesi tonu
-      const osc = audioCtx.createOscillator();
-      const oscGain = audioCtx.createGain();
-      
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(170, time);
-      osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.08);
-      
-      oscGain.gain.setValueAtTime(0.7, time);
-      oscGain.gain.exponentialRampToValueAtTime(0.01, time + 0.08);
-      
-      osc.connect(oscGain);
-      oscGain.connect(channelGain);
-      
-      noiseSource.start(time);
-      noiseSource.stop(time + 0.2);
-      
-      osc.start(time);
-      osc.stop(time + 0.1);
-    }
+function startTutorial(force){
+  if(!force && localStorage.getItem('tutDone')==='1') return;
+  currentTutStep=0; showStep(0); overlay.style.display='flex';
+}
 
-    // 3. HI-HAT
-    function playHihat(time) {
-      if (!audioCtx) initAudio();
-      
-      const source = audioCtx.createBufferSource();
-      source.buffer = getNoiseBuffer();
-      
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'highpass';
-      filter.frequency.setValueAtTime(8000, time);
-      
-      const voiceGain = audioCtx.createGain();
-      voiceGain.gain.setValueAtTime(0.25, time);
-      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.04);
-      
-      const channelGain = getChannelGain('hihat', time);
-      
-      source.connect(filter);
-      filter.connect(voiceGain);
-      voiceGain.connect(channelGain);
-      channelGain.connect(mainGainNode);
-      
-      source.start(time);
-      source.stop(time + 0.05);
-    }
+function showStep(i){
+  document.querySelectorAll('.tut-highlight').forEach(e=>e.classList.remove('tut-highlight'));
+  const s=steps[i];
+  tTitle.innerHTML=s.title; tText.innerHTML=s.text; tDesc.innerHTML=s.desc;
+  tBadge.className='tut-badge'; tBadge.innerText=s.badge;
+  tNext.innerHTML=s.btn; isStepDone=!s.req; tNext.disabled=s.req;
+  if(s.focus){ const el=document.querySelector(s.focus); if(el){ el.classList.add('tut-highlight'); el.scrollIntoView({behavior:'smooth',block:'center'}); } }
+}
 
-    // 4. CLAP
-    function playClap(time) {
-      if (!audioCtx) initAudio();
-      
-      const source = audioCtx.createBufferSource();
-      source.buffer = getNoiseBuffer();
-      
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(1300, time);
-      
-      const voiceGain = audioCtx.createGain();
-      voiceGain.gain.setValueAtTime(0.5, time);
-      voiceGain.gain.exponentialRampToValueAtTime(0.01, time + 0.02);
-      voiceGain.gain.setValueAtTime(0.4, time + 0.025);
-      voiceGain.gain.exponentialRampToValueAtTime(0.01, time + 0.045);
-      voiceGain.gain.setValueAtTime(0.6, time + 0.05);
-      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.16);
-      
-      const channelGain = getChannelGain('clap', time);
-      
-      source.connect(filter);
-      filter.connect(voiceGain);
-      voiceGain.connect(channelGain);
-      channelGain.connect(mainGainNode);
-      
-      source.start(time);
-      source.stop(time + 0.2);
-    }
+function completeTutorialStep(){
+  if(isStepDone) return; isStepDone=true; tNext.disabled=false;
+  tBadge.className='tut-badge done'; tBadge.innerText='Done';
+  const msgs=['','Beat is running.','Rhythm created.','Mixer adjusted.','Note played — you\'re all set.'];
+  tText.innerHTML=`<b>${msgs[currentTutStep]}</b> Continue to the next step.`;
+  tNext.innerHTML = currentTutStep===4 ? 'Finish' : 'Continue';
+}
 
-    // 5. TOM (Medium Tom)
-    function playTom(time) {
-      if (!audioCtx) initAudio();
-      
-      const osc = audioCtx.createOscillator();
-      const voiceGain = audioCtx.createGain();
-      const channelGain = getChannelGain('tom', time);
-      
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(110, time);
-      osc.frequency.exponentialRampToValueAtTime(45, time + 0.22);
-      
-      voiceGain.gain.setValueAtTime(0.9, time);
-      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.22);
-      
-      osc.connect(voiceGain);
-      voiceGain.connect(channelGain);
-      channelGain.connect(mainGainNode);
-      
-      osc.start(time);
-      osc.stop(time + 0.25);
-    }
+tNext.addEventListener('click',()=>{ currentTutStep++; currentTutStep<steps.length ? showStep(currentTutStep) : closeTut(); });
+tSkip.addEventListener('click', closeTut);
 
-    // 6. SYNTH FX (Glitch / Modulated Sound)
-    function playFX(time) {
-      if (!audioCtx) initAudio();
-      
-      const osc = audioCtx.createOscillator();
-      const voiceGain = audioCtx.createGain();
-      const channelGain = getChannelGain('fx', time);
-      
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(800, time);
-      osc.frequency.exponentialRampToValueAtTime(80, time + 0.12);
-      
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(600, time);
-      filter.Q.setValueAtTime(8, time);
-      
-      voiceGain.gain.setValueAtTime(0.5, time);
-      voiceGain.gain.exponentialRampToValueAtTime(0.001, time + 0.12);
-      
-      osc.connect(filter);
-      filter.connect(voiceGain);
-      voiceGain.connect(channelGain);
-      channelGain.connect(mainGainNode);
-      
-      osc.start(time);
-      osc.stop(time + 0.15);
-    }
+function closeTut(){
+  document.querySelectorAll('.tut-highlight').forEach(e=>e.classList.remove('tut-highlight'));
+  overlay.style.display='none'; localStorage.setItem('tutDone','1');
+}
 
-    // Synthesizer Notalarını Çalma Fonksiyonu (Filtre + Delay Desteği)
-    function playSynthNote(freq) {
-      if (!audioCtx) initAudio();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      const osc = audioCtx.createOscillator();
-      const voiceGain = audioCtx.createGain();
-      const filterNode = audioCtx.createBiquadFilter();
-
-      const type = document.getElementById('waveform').value;
-      const filterFreq = parseFloat(document.getElementById('filter').value);
-      const decayTime = parseFloat(document.getElementById('synth-decay').value);
-
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-      // Lowpass Filtresi
-      filterNode.type = 'lowpass';
-      filterNode.frequency.setValueAtTime(filterFreq, audioCtx.currentTime);
-      filterNode.Q.setValueAtTime(2.0, audioCtx.currentTime);
-      filterNode.frequency.exponentialRampToValueAtTime(filterFreq * 0.3, audioCtx.currentTime + decayTime);
-
-      // Ses Seviyesi Envelope
-      voiceGain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-      voiceGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + decayTime);
-
-      osc.connect(filterNode);
-      filterNode.connect(voiceGain);
-      
-      voiceGain.connect(mainGainNode); // Kuru ses
-      voiceGain.connect(delayNode);    // Islak yankılı ses
-
-      osc.start();
-      osc.stop(audioCtx.currentTime + decayTime + 0.1);
-    }
-
-    // Ped Manuel Tetikleyici
-    function triggerPlay(inst) {
-      if (!audioCtx) initAudio();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      
-      const now = audioCtx.currentTime;
-      if (inst === 'kick') playKick(now);
-      else if (inst === 'snare') playSnare(now);
-      else if (inst === 'hihat') playHihat(now);
-      else if (inst === 'clap') playClap(now);
-      else if (inst === 'tom') playTom(now);
-      else if (inst === 'fx') playFX(now);
-    }
-
-    // --- 16 ADIMLI SEQUENCER MANTIĞI ---
-    let isPlaying = false;
-    let currentStep = 0;
-    let tempo = 120;
-    let timerId = null;
-    let nextNoteTime = 0.0;
-    const scheduleAheadTime = 0.1;
-    const lookahead = 25.0;
-
-    function nextStep() {
-      const secondsPerBeat = 60.0 / tempo;
-      const stepDuration = secondsPerBeat / 4; // 16'lık adımlara bölme
-      nextNoteTime += stepDuration;
-      
-      currentStep = (currentStep + 1) % 16;
-    }
-
-    function scheduleNote(stepNum, time) {
-      const rows = document.querySelectorAll('.sequencer-row');
-      rows.forEach(row => {
-        const inst = row.getAttribute('data-inst');
-        const stepBtn = row.querySelector(`[data-step="${stepNum}"]`);
-        
-        if (stepBtn && stepBtn.classList.contains('active')) {
-          if (inst === 'kick') playKick(time);
-          if (inst === 'snare') playSnare(time);
-          if (inst === 'hihat') playHihat(time);
-          if (inst === 'clap') playClap(time);
-          if (inst === 'tom') playTom(time);
-          if (inst === 'fx') playFX(time);
-        }
-      });
-
-      setTimeout(() => {
-        const allBtns = document.querySelectorAll('.step-btn');
-        allBtns.forEach(btn => btn.classList.remove('current'));
-        
-        const activeStepBtns = document.querySelectorAll(`[data-step="${stepNum}"]`);
-        activeStepBtns.forEach(btn => btn.classList.add('current'));
-      }, (time - audioCtx.currentTime) * 1000);
-    }
-
-    function scheduler() {
-      while (nextNoteTime < audioCtx.currentTime + scheduleAheadTime) {
-        scheduleNote(currentStep, nextNoteTime);
-        nextStep();
-      }
-      timerId = setTimeout(scheduler, lookahead);
-    }
-
-    function startSequencer() {
-      initAudio();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      
-      isPlaying = true;
-      currentStep = 0;
-      nextNoteTime = audioCtx.currentTime + 0.05;
-      
-      document.getElementById('play-btn').innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        Döngüyü Durdur
-      `;
-      document.getElementById('play-btn').classList.add('playing');
-      
-      scheduler();
-    }
-
-    function stopSequencer() {
-      isPlaying = false;
-      clearTimeout(timerId);
-      
-      document.getElementById('play-btn').innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Döngüyü Başlat
-      `;
-      document.getElementById('play-btn').classList.remove('playing');
-      
-      const allBtns = document.querySelectorAll('.step-btn');
-      allBtns.forEach(btn => btn.classList.remove('current'));
-    }
-
-    // --- ETKİLEŞİM & OLAY YÖNETİCİLERİ ---
-
-    document.getElementById('play-btn').addEventListener('click', () => {
-      if (isPlaying) stopSequencer();
-      else startSequencer();
-    });
-
-    const tempoSlider = document.getElementById('tempo');
-    const bpmVal = document.getElementById('bpm-val');
-    tempoSlider.addEventListener('input', (e) => {
-      tempo = parseInt(e.target.value);
-      bpmVal.innerText = tempo;
-    });
-
-    const stepBtns = document.querySelectorAll('.step-btn');
-    stepBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        btn.classList.toggle('active');
-        if (btn.classList.contains('active')) {
-          const inst = btn.closest('.sequencer-row').getAttribute('data-inst');
-          triggerPlay(inst);
-        }
-      });
-    });
-
-    // Piyano Tuşları
-    const pianoKeys = document.querySelectorAll('.piano-key');
-    pianoKeys.forEach(key => {
-      key.addEventListener('mousedown', () => {
-        const freq = parseFloat(key.getAttribute('data-note'));
-        playSynthNote(freq);
-        key.classList.add('active');
-      });
-      key.addEventListener('mouseup', () => key.classList.remove('active'));
-      key.addEventListener('mouseleave', () => key.classList.remove('active'));
-      
-      key.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const freq = parseFloat(key.getAttribute('data-note'));
-        playSynthNote(freq);
-        key.classList.add('active');
-      });
-      key.addEventListener('touchend', () => key.classList.remove('active'));
-    });
-
-    const keyMap = {
-      'a': pianoKeys[0], 'A': pianoKeys[0],
-      's': pianoKeys[1], 'S': pianoKeys[1],
-      'd': pianoKeys[2], 'D': pianoKeys[2],
-      'f': pianoKeys[3], 'F': pianoKeys[3],
-      'g': pianoKeys[4], 'G': pianoKeys[4],
-      'h': pianoKeys[5], 'H': pianoKeys[5],
-      'j': pianoKeys[6], 'J': pianoKeys[6],
-      'k': pianoKeys[7], 'K': pianoKeys[7]
-    };
-
-    window.addEventListener('keydown', (e) => {
-      if (e.repeat) return;
-      const keyBtn = keyMap[e.key];
-      if (keyBtn) {
-        const freq = parseFloat(keyBtn.getAttribute('data-note'));
-        playSynthNote(freq);
-        keyBtn.classList.add('active');
-      }
-    });
-
-    window.addEventListener('keyup', (e) => {
-      const keyBtn = keyMap[e.key];
-      if (keyBtn) keyBtn.classList.remove('active');
-    });
-
-    // --- SES GÖRSELLEŞTİRİCİ ---
-    const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-      canvas.width = canvas.parentElement.clientWidth * window.devicePixelRatio;
-      canvas.height = canvas.parentElement.clientHeight * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function startVisualizer() {
-      const bufferLength = analyserNode.frequencyBinCount;
-      const dataArray = new Uint8Array(bufferLength);
-      
-      function draw() {
-        requestAnimationFrame(draw);
-        
-        const width = canvas.width / window.devicePixelRatio;
-        const height = canvas.height / window.devicePixelRatio;
-        
-        analyserNode.getByteTimeDomainData(dataArray);
-        
-        ctx.fillStyle = 'rgba(5, 7, 15, 0.25)';
-        ctx.fillRect(0, 0, width, height);
-        
-        ctx.lineWidth = 2.5;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = '#00f2fe';
-        
-        const grad = ctx.createLinearGradient(0, 0, width, 0);
-        grad.addColorStop(0, '#00f2fe');
-        grad.addColorStop(0.5, '#7000ff');
-        grad.addColorStop(1, '#f355da');
-        ctx.strokeStyle = grad;
-        
-        ctx.beginPath();
-        const sliceWidth = width / bufferLength;
-        let x = 0;
-        
-        for (let i = 0; i < bufferLength; i++) {
-          const v = dataArray[i] / 128.0;
-          const y = (v * height) / 2;
-          
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-          
-          x += sliceWidth;
-        }
-        
-        ctx.lineTo(width, height / 2);
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-      }
-      
-      draw();
-    }
-
-    function drawStaticWave() {
-      const width = canvas.width / window.devicePixelRatio;
-      const height = canvas.height / window.devicePixelRatio;
-      ctx.fillStyle = '#05070f';
-      ctx.fillRect(0, 0, width, height);
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(0, 242, 254, 0.15)';
-      ctx.beginPath();
-      ctx.moveTo(0, height / 2);
-      ctx.lineTo(width, height / 2);
-      ctx.stroke();
-    }
-    drawStaticWave();
-
-
-    // --- ADIM ADIM İNTERAKTİF TUTORIAL (REHBER) MANTIĞI ---
-    let currentTutStep = -1;
-    
-    // Basit, eğlenceli ve en anlaşılır dilde rehber adımları
-    const stepsData = [
-      {
-        title: "Hoş Geldin Şampiyon! ⚡",
-        text: "Kendi müziğini yapmak hiç bu kadar kolay olmamıştı! Senin için hazırladığım **1 dakikalık süper basit rehbere** göz atmaya ne dersin?",
-        desc: "İstediğin an 'Atla' diyerek rehberi kapatabilirsin.",
-        focus: null,
-        btnText: "Hadi Başlayalım! 🚀"
-      },
-      {
-        title: "1. Müziğin Kalbi: Döngü ve Hız ⏱️",
-        text: "Buradan <b>'Döngüyü Başlat'</b> butonuna basarak ritmin akmasını sağla! <br>Ritim hızını değiştirmek için <b>BPM</b> sürgüsünü kaydırıp hızlandırabilir veya yavaşlatabilirsin.",
-        desc: "Butona tıklayarak davul seslerinin ritmini hisset!",
-        focus: "#tut-header",
-        btnText: "Sonraki Adım ➡️"
-      },
-      {
-        title: "2. Kendi Ritimlerini Tasarla! 🥁",
-        text: "Buradaki kare tablosu senin <b>ritim yapıcı (sequencer)</b> alanın! <br><b>Karelerin üzerine tıklayarak onları mavi yap.</b> Mavi yaptığın her karede o satırdaki davul sesi (Bas, Trampet vb.) otomatik olarak çalacaktır!",
-        desc: "Ritim çalarken kutuları mavi yapıp farkı anında duyabilirsin!",
-        focus: "#tut-sequencer",
-        btnText: "Çok Basit! Devam Et ➡️"
-      },
-      {
-        title: "3. Profesyonel Mikser Paneli 🎛️",
-        text: "Hangi enstrümanın ne kadar yüksek ses çıkaracağını buradaki sürgülerden ayarlayabilirsin. <br>Eğer bir davul sesini tamamen kapatmak istersen yanındaki <b>'M' (Mute)</b> butonuna basıp susturabilirsin!",
-        desc: "Sadece Kick duymak istiyorsan diğerlerini M butonuyla kapat!",
-        focus: ".channel-mixer",
-        btnText: "Bunu da Anladım! ➡️"
-      },
-      {
-        title: "4. Ve Efsanevi Piyano! 🎹",
-        text: "Mouse ile tıklayarak veya bilgisayar klavyendeki <b>A, S, D, F, G, H, J, K</b> tuşlarına basarak kendi melodilerini canlı çal! <br><b>Delay (Yankı)</b> sürgüsünü açarak sesleri derin bir uzay yankısıyla süsle!",
-        desc: "Dalga Şeklini değiştirerek retro bilgisayar veya yumuşak tonlar elde et!",
-        focus: "#tut-synth",
-        btnText: "Turu Bitir ve Müzik Yap! 🎉"
-      }
-    ];
-
-    const overlay = document.getElementById('tutorial-overlay');
-    const tutTitle = document.getElementById('tut-title');
-    const tutText = document.getElementById('tut-text');
-    const tutDesc = document.getElementById('tut-desc');
-    const btnNext = document.getElementById('tut-btn-next');
-    const btnSkip = document.getElementById('tut-btn-skip');
-
-    function startTutorial(force = false) {
-      // Eğer daha önce tur tamamlandıysa ve zorlanmadıysa başlatma
-      if (!force && localStorage.getItem('tutorialCompleted') === 'true') {
-        return;
-      }
-      
-      currentTutStep = 0;
-      showStep(0);
-      overlay.style.display = 'flex';
-    }
-
-    function showStep(stepIndex) {
-      // Önceki odakları temizle
-      document.querySelectorAll('.tutorial-focus').forEach(el => el.classList.remove('tutorial-focus'));
-      
-      const step = stepsData[stepIndex];
-      tutTitle.innerHTML = step.title;
-      tutText.innerHTML = step.text;
-      tutDesc.innerHTML = step.desc;
-      btnNext.innerHTML = step.btnText;
-
-      // Belirli bir alanı aydınlatma / odaklanma
-      if (step.focus) {
-        const target = document.querySelector(step.focus);
-        if (target) {
-          target.classList.add('tutorial-focus');
-          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }
-    }
-
-    btnNext.addEventListener('click', () => {
-      currentTutStep++;
-      if (currentTutStep < stepsData.length) {
-        showStep(currentTutStep);
-      } else {
-        closeTutorial();
-      }
-    });
-
-    btnSkip.addEventListener('click', closeTutorial);
-    overlay.addEventListener('click', (e) => {
-      // Kutu dışına tıklandığında da kapansın
-      if (e.target === overlay) closeTutorial();
-    });
-
-    function closeTutorial() {
-      // Odakları temizle
-      document.querySelectorAll('.tutorial-focus').forEach(el => el.classList.remove('tutorial-focus'));
-      overlay.style.display = 'none';
-      localStorage.setItem('tutorialCompleted', 'true');
-    }
-
-    // İlk açılışta turu otomatik başlat (localStorage kontrolü ile)
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        startTutorial(false);
-      }, 800);
-    });
-  </script>
+window.addEventListener('load',()=>setTimeout(()=>startTutorial(false),800));
+</script>
 </body>
 </html>
