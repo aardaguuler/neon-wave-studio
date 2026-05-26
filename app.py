@@ -90,7 +90,7 @@ try:
         studio_html = f.read()
     
     # HTML bileşenini sayfaya gömme
-    components.html(studio_html, height=740, scrolling=False)
+    components.html(studio_html, height=950, scrolling=False)
 except FileNotFoundError:
     st.error("Hata: `studio.html` dosyası bulunamadı! Lütfen aynı dizinde olduğundan emin olun.")
 
